@@ -110,7 +110,7 @@
 
     <Fab
       icon="settings"
-      position="bottom-left"
+      position="bottom-right"
       :offset="32"
       :show-labels="false"
       :actions="[
@@ -122,6 +122,233 @@
       @open="onOpen"
       @close="onClose"
     />
+    
+    <!-- <Layout type="1fr 1fr" gap="2rem">
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <DataTable
+          :columns="columns"
+          :rows="rows"
+          @row-click="handleRowClick"
+        />
+      <DataTable
+          :columns="columns"
+          :rows="rows"
+          @row-click="handleRowClick"
+        />
+    </Layout> -->
+   
+    <!-- <Layout type="grid" :auto-fill="true" min-width="250px">
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+    </Layout> -->
+
+    <!-- <Layout type="col" align="right" justify="space-between">
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+    </Layout> -->
+
+    <!-- <Layout type="flex" max-width="1200px" :center="true" padding="0 1.5rem">
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+    </Layout> -->
+
+    <!-- <Layout type="grid" columns="200px 1fr" rows="auto 1fr auto"
+    :areas="['sidebar main', 'sidebar main', 'footer footer']">
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+    </Layout> -->
+
+    <!-- <Layout margin="1rem 2rem 0 2rem" type="2" row-gap="1.5rem" column-gap="2rem">
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+      <div class="layout-element"></div>
+    </Layout> -->
+
+
+
+    <!-- Text example -->
+    <Layout type="grid" margin="2rem 2rem 2rem 2rem" columns="auto 1fr" :wrap="false" align="start">
+      <img src="../assets/favicon.png" alt="ICONa" style="width: 10rem;" />
+      <p style="text-align: justify;"><span style="font-size: 25px;font-weight: 800;">L</span>orem ipsum dolor sit amet consectetur adipisicing elit. Nostrum quasi, consectetur cum ipsam inventore in recusandae, necessitatibus, quod quidem incidunt voluptate nemo amet quis doloremque nobis dolorum laborum similique alias.
+      Hic voluptatum quam saepe delectus velit. Dolore enim repellendus, totam saepe dolorum aut nisi voluptate quia dolor, deserunt vel. Voluptas cupiditate voluptate id dolor quae laudantium quos, reiciendis obcaecati deserunt.
+      Tempora temporibus blanditiis odit sed quo repellendus, quam, mollitia ut culpa, voluptas atque a labore vitae perferendis qui aliquid? Possimus ad fuga hic ipsum laborum perferendis earum iure nesciunt eum!
+      Libero iste dignissimos deserunt dolorem porro blanditiis amet laboriosam, dolorum, exercitationem officiis, ut suscipit doloremque voluptatum magni cupiditate? Doloribus minima ad, totam consequatur magni saepe expedita id possimus quaerat maxime?
+      Veniam ipsam excepturi consequatur consequuntur possimus dignissimos magni assumenda obcaecati, accusantium reiciendis at deserunt quisquam et, mollitia eveniet voluptate vero cupiditate aspernatur! Impedit dignissimos sit voluptas odio iure voluptatum vitae!
+      Dolorum voluptatibus id recusandae ullam expedita neque voluptatem cumque harum, quos nam, optio nemo earum repellat, ipsa vitae vero quidem laudantium fuga! Ducimus distinctio error illum numquam quo, debitis voluptatum?
+      Facilis quae a quos iusto quis, assumenda error laborum culpa illum asperiores temporibus, nihil delectus similique praesentium? Voluptas quasi repudiandae voluptate veniam eligendi voluptates, eaque sequi impedit veritatis vero natus.
+      Impedit sed cum inventore aut eligendi nulla saepe atque quam dolorem, animi ex non fugit omnis dolorum aliquam nam eos delectus. Ipsam qui molestiae magnam corrupti rem optio, architecto libero?
+      Fugiat dignissimos omnis ex quas voluptas voluptates exercitationem quo veritatis incidunt doloribus. Delectus repudiandae qui aliquam facilis illum totam veniam ipsum saepe quaerat provident! Unde sit libero autem dolorem magni?
+      </p>
+      <img src="../assets/favicon.png" alt="ICONa" style="width: 10rem;" />
+      <p style="text-align: justify;"><span style="font-size: 25px;font-weight: 800;">L</span>orem ipsum dolor sit amet consectetur adipisicing elit. Nostrum quasi, consectetur cum ipsam inventore in recusandae, necessitatibus, quod quidem incidunt voluptate nemo amet quis doloremque nobis dolorum laborum similique alias.
+      Hic voluptatum quam saepe delectus velit. Dolore enim repellendus, totam saepe dolorum aut nisi voluptate quia dolor, deserunt vel. Voluptas cupiditate voluptate id dolor quae laudantium quos, reiciendis obcaecati deserunt.
+      Tempora temporibus blanditiis odit sed quo repellendus, quam, mollitia ut culpa, voluptas atque a labore vitae perferendis qui aliquid? Possimus ad fuga hic ipsum laborum perferendis earum iure nesciunt eum!
+      Libero iste dignissimos deserunt dolorem porro blanditiis amet laboriosam, dolorum, exercitationem officiis, ut suscipit doloremque voluptatum magni cupiditate? Doloribus minima ad, totam consequatur magni saepe expedita id possimus quaerat maxime?
+      Veniam ipsam excepturi consequatur consequuntur possimus dignissimos magni assumenda obcaecati, accusantium reiciendis at deserunt quisquam et, mollitia eveniet voluptate vero cupiditate aspernatur! Impedit dignissimos sit voluptas odio iure voluptatum vitae!
+      Dolorum voluptatibus id recusandae ullam expedita neque voluptatem cumque harum, quos nam, optio nemo earum repellat, ipsa vitae vero quidem laudantium fuga! Ducimus distinctio error illum numquam quo, debitis voluptatum?
+      Facilis quae a quos iusto quis, assumenda error laborum culpa illum asperiores temporibus, nihil delectus similique praesentium? Voluptas quasi repudiandae voluptate veniam eligendi voluptates, eaque sequi impedit veritatis vero natus.
+      Impedit sed cum inventore aut eligendi nulla saepe atque quam dolorem, animi ex non fugit omnis dolorum aliquam nam eos delectus. Ipsam qui molestiae magnam corrupti rem optio, architecto libero?
+      Fugiat dignissimos omnis ex quas voluptas voluptates exercitationem quo veritatis incidunt doloribus. Delectus repudiandae qui aliquam facilis illum totam veniam ipsum saepe quaerat provident! Unde sit libero autem dolorem magni?
+      </p>
+    </Layout>
+    <Layout type="flex" max-width="800px" :center="true" padding="0 1.5rem">
+      <DataChart
+        type="line"
+        title="Andamento vendite"
+        subtitle="Dati mensili 2024"
+        :labels="['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu']"
+        :datasets="[
+          { label: 'Prodotto A', data: [120, 190, 140, 220, 180, 260] },
+          { label: 'Prodotto B', data: [80, 110, 90, 150, 130, 170] }
+        ]"
+        :fill="true"
+        :tension="0.4"
+        :show-legend="true"
+        height="300px"
+      />
+
+      <DataChart
+        type="bar"
+        title="Vendite per area"
+        :labels="['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu']"
+        :datasets="[
+          { label: 'Nord', data: [40, 55, 60, 70, 65, 80] },
+          { label: 'Sud',  data: [30, 40, 50, 55, 60, 70] }
+        ]"
+        :stacked="true"
+        y-label="Unità vendute"
+        height="300px"
+      />
+
+      <DataChart
+        type="bar"
+        title="Performance per team"
+        :labels="['Alfa', 'Beta', 'Gamma', 'Delta', 'Epsilon']"
+        :datasets="[
+          { label: 'Punteggio', data: [72, 58, 91, 43, 66] }
+        ]"
+        :horizontal="true"
+        :show-legend="false"
+        height="300px"
+      />
+
+      <DataChart
+        type="pie"
+        title="Distribuzione budget"
+        :labels="['Design', 'Sviluppo', 'QA', 'Ops']"
+        :datasets="[
+          { data: [30, 45, 15, 10] }
+        ]"
+        :colors="['#ED202F', '#378ADD', '#1D9E75', '#EF9F27']"
+        legend-position="bottom"
+        height="300px"
+      />
+
+      <DataChart
+        type="doughnut"
+        title="Quota di mercato"
+        :labels="['Design', 'Sviluppo', 'QA', 'Ops']"
+        :datasets="[
+          { data: [30, 45, 15, 10] }
+        ]"
+        :colors="['#ED202F', '#378ADD', '#1D9E75', '#EF9F27']"
+        :options="{ cutout: '65%' }"
+        legend-position="right"
+        height="300px"
+      />
+
+      <DataChart
+        type="radar"
+        title="Confronto atleti"
+        :labels="['Velocità', 'Potenza', 'Difesa', 'Stamina', 'Agilità', 'Tecnica']"
+        :datasets="[
+          { label: 'Atleta A', data: [80, 70, 60, 90, 75, 85] },
+          { label: 'Atleta B', data: [60, 85, 80, 65, 90, 70] }
+        ]"
+        :options="{ scales: { r: { min: 0, max: 100 } } }"
+        height="300px"
+      />
+
+      <DataChart
+        type="polarArea"
+        title="Risultati trimestrali"
+        :labels="['Q1', 'Q2', 'Q3', 'Q4']"
+        :datasets="[
+          { data: [55, 70, 40, 85] }
+        ]"
+        :colors="['#ED202F', '#378ADD', '#1D9E75', '#EF9F27']"
+        legend-position="bottom"
+        height="300px"
+      />
+
+      <DataChart
+        type="bubble"
+        title="Distribuzione campagne"
+        :labels="[]"
+        :datasets="[
+          {
+            label: 'Gruppo A',
+            data: [{ x: 10, y: 20, r: 8 }, { x: 25, y: 35, r: 14 }, { x: 40, y: 15, r: 10 }]
+          },
+          {
+            label: 'Gruppo B',
+            data: [{ x: 15, y: 50, r: 12 }, { x: 30, y: 10, r: 7 }, { x: 48, y: 38, r: 16 }]
+          }
+        ]"
+        x-label="Costo (k€)"
+        y-label="Conversioni"
+        height="300px"
+      />
+
+      <DataChart
+        type="scatter"
+        title="Correlazione età / reddito"
+        :labels="[]"
+        :datasets="[
+          {
+            label: 'Gruppo A',
+            data: [{ x: 22, y: 28 }, { x: 35, y: 45 }, { x: 41, y: 52 }, { x: 29, y: 33 }]
+          },
+          {
+            label: 'Gruppo B',
+            data: [{ x: 25, y: 60 }, { x: 38, y: 72 }, { x: 50, y: 85 }, { x: 44, y: 68 }]
+          }
+        ]"
+        x-label="Età"
+        y-label="Reddito (k€)"
+        height="300px"
+      />
+    </Layout>
+
+    <Modal v-model="isOpen" width="1000px" max-height="1000px">
+      <DynamicForm
+        :fields="formModalSchema"
+        submitText="Send to home"
+        @submit-form="handleSubmit"
+      />
+
+    </Modal>
+
+    <button @click="isOpen = true">Open Modal</button>
   </div>
 </template>
 
@@ -138,6 +365,9 @@ import Alert from "@/components/Alert.vue"
 import Fab from "@/components/Fab.vue"
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import DataLoader from "@/components/DataLoader.vue"
+import Layout from "@/components/Layout.vue"
+import DataChart from "@/components/DataChart.vue"
+import Modal from "@/components/Modal.vue"
 
 export default {
   name: 'HomeView',
@@ -153,11 +383,15 @@ export default {
     DataTable,
     Alert,
     DataLoader,
-    Fab
+    Fab,
+    Layout,
+    DataChart,
+    Modal
   },
 
   data() {
     return {
+      isOpen: false,
       links: ["Home", "Prodotti", "Chi Siamo", "Servizi", "Contatti", "FAQ"],
       columns:[
         { key: 'name',   label: 'Name',   sortable: true },
@@ -336,7 +570,6 @@ export default {
         }
       ],
         formSchema: [
- 
         {
           type: 'divider',
           name: 'divider_personali',
@@ -589,6 +822,7 @@ export default {
           fullWidth: true,
         },
       ],
+      formModalSchema:[],
       alertError:true,
       alertSuccess:true,
       alertInfo:true,
@@ -617,7 +851,21 @@ export default {
     onCatalogError(err) {
       console.error('Errore catalogo:', err)
     },
-    handleRowClick(){
+    handleRowClick(rowData) {
+      this.isOpen = true;
+
+      this.formModalSchema = [{type:"divider",label:"Wanna fire someone today?",name:"ignore",},...Object.keys(rowData).map(key => ({
+        type: "text",
+        name: key,
+        label: key.toUpperCase(),
+        defaultValue: rowData[key],
+        fullWidth:true,
+      }))];
+
+    },
+    handleSubmit(formData){
+      this.isOpen = false;
+      console.log(formData);
 
     },
   }
@@ -667,5 +915,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.layout-element{
+  width: 100%;
+  height: 100px;
+  background-color: red;
 }
 </style>
