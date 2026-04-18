@@ -1,13 +1,17 @@
-:root{
-  --background:#dfdfdf;
-  --foreground:#1a1a1a;
-  --primary:#ED202F;
-  --error:#a26975;
+:root {
+  --background: #dfdfdf;
+  --foreground: #1a1a1a;
+  --primary: #ED202F;
+  --error: #a26975;
   --font-family: 'DM Sans', sans-serif;  
 }
 
-/* Primevue Aura Theme colors override */
-:root{
+html.dark {
+  --background: #212121;
+  --foreground: #dfdfdf;
+}
+
+:root {
   --p-primary-color: var(--primary) !important;
 
   --p-primary-50: color-mix(in srgb, var(--primary) 10%, white) !important;
@@ -51,14 +55,7 @@
   --p-focus-ring-color: color-mix(in srgb, var(--primary) 25%, transparent) !important;
 }
 
-@media (prefers-color-scheme: dark){
-  :root{
-    --background:#212121;
-    --foreground:#dfdfdf;
-  }
-}
-
-html,body,#app{
+html, body, #app {
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -66,5 +63,5 @@ html,body,#app{
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-family);
+  transition: background-color 0.3s ease, color 0.3s ease; 
 }
-

@@ -1,20 +1,53 @@
+<template>
+  <div class="lang-switcher" role="radiogroup">
+    <button
+      class="lang-btn"
+      :class="{ active: language === 'en' }"
+      role="radio"
+      :aria-checked="language === 'en'"
+      :aria-label="langText.languageChanger.english"
+      @click="handleLangChange('en')"
+    >
+      EN
+    </button>
+
+    <button
+      class="lang-btn"
+      :class="{ active: language === 'it' }"
+      role="radio"
+      :aria-checked="language === 'it'"
+      :aria-label="langText.languageChanger.italian"
+      @click="handleLangChange('it')"
+    >
+      IT
+    </button>
+  </div>
+</template>
+
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
+
 export default {
   name: 'LanguageChanger',
-  data() {
-    return {
-      lang: 'en'
+
+  computed: {
+    ...mapState(useGenericStore, ['language']),
+    
+    langText() {
+      return this.language === 'en' ? en : it;
     }
   },
-  mounted() {
-    const saved = localStorage.getItem('lang')
-    if (saved) this.lang = saved
-  },
+
   methods: {
-    setLang(l) {
-      this.lang = l
-      localStorage.setItem('lang', l)
-      this.$emit('change', l)
+    ...mapActions(useGenericStore, ['changeLanguage']),
+
+    handleLangChange(l) {
+      this.changeLanguage(l);
+      
+      this.$emit('change', l);
     }
   }
 }
@@ -39,6 +72,7 @@ export default {
   padding: 6px 10px;
   border-radius: 9999px;
   cursor: pointer;
+  color:#fefefe;
 }
 
 .lang-btn:hover {
@@ -46,33 +80,9 @@ export default {
 }
 
 .lang-btn.active {
-  background-color: rgba(128, 128, 128, 0.35);
+  background-color: rgba(172, 172, 172, 0.35);
   color: var(--foreground);
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 </style>
-
-<template>
-  <div class="lang-switcher" role="radiogroup">
-    <button
-      class="lang-btn"
-      :class="{ active: lang === 'en' }"
-      role="radio"
-      :aria-checked="lang === 'en'"
-      @click="setLang('en')"
-    >
-      EN
-    </button>
-
-    <button
-      class="lang-btn"
-      :class="{ active: lang === 'it' }"
-      role="radio"
-      :aria-checked="lang === 'it'"
-      @click="setLang('it')"
-    >
-      IT
-    </button>
-  </div>
-</template>

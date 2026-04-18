@@ -3,11 +3,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <div class="header">
-      <button class="nav-btn" @click="prevMonth" aria-label="Previous">
+      <button class="nav-btn" @click="prevMonth" :aria-label="lang.calendar.prevMonth">
         <span class="material-icons">chevron_left</span>
       </button>
       <h2>{{ monthYear }}</h2>
-      <button class="nav-btn" @click="nextMonth" aria-label="Next">
+      <button class="nav-btn" @click="nextMonth" :aria-label="lang.calendar.nextMonth">
         <span class="material-icons">chevron_right</span>
       </button>
     </div>
@@ -43,7 +43,7 @@
           <div class="modal-header">
             <div class="modal-title-group">
               <span class="modal-date-label">{{ formatModalDate(selectedDate) }}</span>
-              <h3 class="modal-title">Tasks</h3>
+              <h3 class="modal-title">{{ lang.calendar.tasksTitle }}</h3>
             </div>
             <button class="modal-close" @click="closeModal">
               <span class="material-icons">close</span>
@@ -62,11 +62,11 @@
             </div>
             <div v-else class="no-events">
               <span class="material-icons no-events-icon">event_available</span>
-              <p>No tasks for today</p>
+              <p>{{ lang.calendar.noTasks }}</p>
             </div>
 
             <div class="form-divider-section">
-              <span class="divider-text">Add task</span>
+              <span class="divider-text">{{ lang.calendar.addTask }}</span>
             </div>
 
             <DynamicForm
@@ -84,6 +84,12 @@
 
 <script>
 import DynamicForm from './DynamicForm.vue';
+import { mapState } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+
+// Importa i file JSON
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
 
 export default {
   name: "Calendar",
@@ -97,6 +103,9 @@ export default {
       type: Array,
       default: () => [],
     },
+    // NOTA: I 'default' delle props non possono accedere al 'this.lang' dinamicamente qui.
+    // Se vuoi tradurre i campi del DynamicForm, dovrai passare i campi tradotti 
+    // dal componente padre, oppure non usare i default qui e gestirli nelle computed.
     formFields: {
       type: Array,
       default: () => [
@@ -125,15 +134,27 @@ export default {
   data() {
     return {
       currentDate: new Date(),
-      weekdays: ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"],
       modalOpen: false,
       selectedDate: null,
     };
   },
 
   computed: {
+    ...mapState(useGenericStore, ['language']),
+
+    lang() {
+      return this.language === 'en' ? en : it;
+    },
+
+    currentLocale() {
+      return this.language === 'en' ? 'en-US' : 'it-IT';
+    },
+    weekdays() {
+      return this.lang.calendar.weekdays;
+    },
+
     monthYear() {
-      return this.currentDate.toLocaleDateString("en-EN", {
+      return this.currentDate.toLocaleDateString(this.currentLocale, {
         month: "long",
         year: "numeric",
       });
@@ -192,7 +213,12 @@ export default {
 
     formatModalDate(date) {
       if (!date) return "";
-      return date.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      return date.toLocaleDateString(this.currentLocale, { 
+        weekday: "long", 
+        day: "numeric", 
+        month: "long", 
+        year: "numeric" 
+      });
     },
 
     handleFormSubmit(formData) {

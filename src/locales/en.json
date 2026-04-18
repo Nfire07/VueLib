@@ -1,0 +1,78 @@
+{
+  "alert": {
+    "defaultTitle": "Attention",
+    "dismiss": "Dismiss alert"
+  },
+  "calendar": {
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    "tasksTitle": "Tasks",
+    "noTasks": "No tasks for today",
+    "addTask": "Add task"
+  },
+  "carousel": {
+    "open": "Open",
+    "defaultCta": "Discover more",
+    "prev": "Previous",
+    "next": "Next",
+    "clickToView": "Click to view more",
+    "close": "Close",
+    "closeBtn": "Close"
+  },
+  "datachart": {
+    "errorLoad": "Failed to load chart library."
+  },
+  "dataloader": {
+    "loading": "Loading...",
+    "retry": "Try again",
+    "errorTitle": "Something went wrong",
+    "emptyTitle": "No data found",
+    "emptyMessage": "There is nothing to display here yet.",
+    "requestFailed": "Request failed with status",
+    "unknownError": "Unknown error"
+  },
+  "datatable": {
+    "search": "Search...",
+    "columns": "Columns",
+    "toggleColumns": "Toggle Columns",
+    "rows": "Rows",
+    "filter": "Filter",
+    "noResults": "No results found",
+    "of": "of",
+    "rowsLower": "rows",
+    "firstPage": "First page",
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
+    "lastPage": "Last page"
+  },
+  "dynamicform": {
+    "enterPassword": "Enter password",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password",
+    "selectOption": "Select an option",
+    "selectOptions": "Select options",
+    "chooseFile": "Choose a file",
+    "addTag": "Add a tag...",
+    "submit": "Submit",
+    "filesSelected": "files selected",
+    "isRequired": "is required",
+    "invalidEmail": "Please enter a valid email address",
+    "minVal": "Minimum value is",
+    "maxVal": "Maximum value is",
+    "minChars": "Minimum",
+    "charsRequired": "characters required",
+    "invalidFormat": "Invalid format"
+  },
+  "fab": {
+    "openMenu": "Open menu"
+  },
+  "gantt": {
+    "today": "Today",
+    "complete": "complete"
+  },
+  "languageChanger": {
+    "english": "Switch to English",
+    "italian": "Switch to Italian"
+  }
+}

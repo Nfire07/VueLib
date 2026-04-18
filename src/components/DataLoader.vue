@@ -19,14 +19,14 @@
       <template v-else>
         <div class="spinner-wrapper">
           <div class="spinner"></div>
-          <p v-if="loadingText" class="state-text">{{ loadingText }}</p>
+          <p class="state-text">{{ loadingText || lang.dataloader.loading }}</p>
         </div>
       </template>
     </div>
 
     <div v-else-if="state === 'error'" class="data-loader__error">
       <span class="state-icon material-icons-round">cloud_off</span>
-      <p class="state-title">{{ errorTitle }}</p>
+      <p class="state-title">{{ errorTitle || lang.dataloader.errorTitle }}</p>
       <p class="state-message">{{ errorMessage || fetchError }}</p>
       <button
         v-if="retryable"
@@ -35,14 +35,14 @@
         @click="load"
       >
         <span class="material-icons-round">refresh</span>
-        {{ retryText }}
+        {{ retryText || lang.dataloader.retry }}
       </button>
     </div>
 
     <div v-else-if="state === 'empty'" class="data-loader__empty">
       <span class="state-icon material-icons-round">{{ emptyIcon }}</span>
-      <p class="state-title">{{ emptyTitle }}</p>
-      <p class="state-message">{{ emptyMessage }}</p>
+      <p class="state-title">{{ emptyTitle || lang.dataloader.emptyTitle }}</p>
+      <p class="state-message">{{ emptyMessage || lang.dataloader.emptyMessage }}</p>
     </div>
 
     <div v-else-if="state === 'success'" class="data-loader__content">
@@ -53,6 +53,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
+
 export default {
   name: 'DataLoader',
 
@@ -83,7 +88,7 @@ export default {
     },
     loadingText: {
       type: String,
-      default: 'Loading...',
+      default: '',
     },
     retryable: {
       type: Boolean,
@@ -91,11 +96,11 @@ export default {
     },
     retryText: {
       type: String,
-      default: 'Try again',
+      default: '',
     },
     errorTitle: {
       type: String,
-      default: 'Something went wrong',
+      default: '',
     },
     errorMessage: {
       type: String,
@@ -107,11 +112,11 @@ export default {
     },
     emptyTitle: {
       type: String,
-      default: 'No data found',
+      default: '',
     },
     emptyMessage: {
       type: String,
-      default: 'There is nothing to display here yet.',
+      default: '',
     },
     immediate: {
       type: Boolean,
@@ -129,6 +134,13 @@ export default {
     };
   },
 
+  computed: {
+    ...mapState(useGenericStore, ['language']),
+    lang() {
+      return this.language === 'en' ? en : it;
+    }
+  },
+
   mounted() {
     if (this.immediate) this.load();
   },
@@ -142,7 +154,7 @@ export default {
         const response = await fetch(this.url, this.fetchOptions);
 
         if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
+          throw new Error(`${this.lang.dataloader.requestFailed} ${response.status}`);
         }
 
         let result = await response.json();
@@ -167,7 +179,7 @@ export default {
           this.$emit('success', result);
         }
       } catch (err) {
-        this.fetchError = err.message || 'Unknown error';
+        this.fetchError = err.message || this.lang.dataloader.unknownError;
         this.state = 'error';
         this.$emit('error', this.fetchError);
       }

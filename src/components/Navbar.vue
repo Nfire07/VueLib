@@ -105,6 +105,7 @@ export default {
   height: 100%;
   padding: 0 10px;
   box-sizing: border-box;
+  color: #fefefe;
 }
 
 .icon-img {
@@ -119,7 +120,7 @@ export default {
   white-space: nowrap; 
   font-size: 12px;
   font-weight: 400;
-  color: var(--foreground);
+  color: #fefefe;
   text-shadow: 2px 2px #020202;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -153,7 +154,7 @@ export default {
   transition: transform 0.4s ease-in-out;
   text-transform: uppercase;
   font-weight: 800;
-  color: hsl(from var(--foreground) h s calc(l * 1.5)); 
+  color:#fefefe;
   letter-spacing: 0.1em;
   text-shadow: 2px 2px #020202;
   font-size: 14px;

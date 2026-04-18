@@ -12,7 +12,7 @@
           :class="['classic-card', { 'classic-card--clickable': modal }]"
           :tabindex="modal ? 0 : -1"
           :role="modal ? 'button' : undefined"
-          :aria-label="modal ? `Open ${item.title}` : undefined"
+          :aria-label="modal ? `${lang.carousel.open} ${item.title}` : undefined"
           @click="modal && openModal(item)"
           @keydown.enter="modal && openModal(item)"
         >
@@ -23,7 +23,7 @@
             <span v-if="item.tag" class="classic-card__tag">{{ item.tag }}</span>
             <h3 class="classic-card__title">{{ item.title }}</h3>
             <p class="classic-card__desc">{{ item.description }}</p>
-            <button v-if="modal" class="classic-card__cta" @click.stop="openModal(item)">{{ ctaLabel }}</button>
+            <button v-if="modal" class="classic-card__cta" @click.stop="openModal(item)">{{ ctaLabel || lang.carousel.defaultCta }}</button>
           </div>
         </div>
       </SwiperSlide>
@@ -45,7 +45,7 @@
               <h2 class="hero-slide__title">{{ item.title }}</h2>
               <p class="hero-slide__sub">{{ item.description }}</p>
               <div class="hero-slide__actions">
-                <button v-if="modal" class="hero-btn" @click="openModal(item)">{{ ctaLabel }}</button>
+                <button v-if="modal" class="hero-btn" @click="openModal(item)">{{ ctaLabel || lang.carousel.defaultCta }}</button>
                 <slot name="hero-action" :item="item" />
               </div>
             </div>
@@ -55,10 +55,10 @@
       <div v-if="autoplay" class="hero-progress">
         <div class="hero-progress__bar" :style="{ animationDuration: `${autoplayDelay}ms` }" :key="activeIndex" />
       </div>
-      <button class="hero-nav hero-nav--prev" aria-label="Precedente" @click="swiperInstance?.slidePrev()">
+      <button class="hero-nav hero-nav--prev" :aria-label="lang.carousel.prev" @click="swiperInstance?.slidePrev()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="hero-nav hero-nav--next" aria-label="Successivo" @click="swiperInstance?.slideNext()">
+      <button class="hero-nav hero-nav--next" :aria-label="lang.carousel.next" @click="swiperInstance?.slideNext()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -82,7 +82,7 @@
             <div class="fullscreen-slide__content">
               <h2 class="fullscreen-slide__title">{{ item.title }}</h2>
               <p v-if="!modal" class="fullscreen-slide__sub">{{ item.description }}</p>
-              <p v-else class="fullscreen-slide__hint">Click to view more</p>
+              <p v-else class="fullscreen-slide__hint">{{ lang.carousel.clickToView }}</p>
             </div>
             <div class="fullscreen-slide__counter">
               {{ String(i + 1).padStart(2, '0') }} / {{ String(items.length).padStart(2, '0') }}
@@ -113,7 +113,7 @@
             <h3 class="stack-card__title">{{ item.title }}</h3>
             <p class="stack-card__desc">{{ item.description }}</p>
           </div>
-          <div v-if="modal" class="stack-card__tap">{{ ctaLabel }} →</div>
+          <div v-if="modal" class="stack-card__tap">{{ ctaLabel || lang.carousel.defaultCta }} →</div>
         </div>
       </SwiperSlide>
     </Swiper>
@@ -161,7 +161,7 @@
                 : { background: selectedItem.color || 'var(--primary)' }"
             >
               <span v-if="!selectedItem.image" class="c-modal__visual-emoji">{{ selectedItem.emoji }}</span>
-              <button class="c-modal__close" aria-label="Close" @click="closeModal">
+              <button class="c-modal__close" :aria-label="lang.carousel.close" @click="closeModal">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
@@ -173,8 +173,8 @@
               <p class="c-modal__text">{{ selectedItem.fullText || selectedItem.description }}</p>
               <div class="c-modal__footer">
                 <slot name="modal-footer" :item="selectedItem" :close="closeModal">
-                  <button class="c-modal__btn c-modal__btn--ghost" @click="closeModal">Close</button>
-                  <button class="c-modal__btn c-modal__btn--primary" @click="$emit('cta-click', selectedItem); closeModal()">{{ ctaLabel }}</button>
+                  <button class="c-modal__btn c-modal__btn--ghost" @click="closeModal">{{ lang.carousel.closeBtn }}</button>
+                  <button class="c-modal__btn c-modal__btn--primary" @click="$emit('cta-click', selectedItem); closeModal()">{{ ctaLabel || lang.carousel.defaultCta }}</button>
                 </slot>
               </div>
             </div>
@@ -194,6 +194,11 @@ import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
 import 'swiper/css/effect-cards'
 import 'swiper/css/effect-coverflow'
+
+import { mapState } from 'pinia'
+import { useGenericStore } from '@/stores/generic'
+import it from '@/locales/it.json'
+import en from '@/locales/en.json'
 
 export default {
   name: 'CustomCarousel',
@@ -229,7 +234,7 @@ export default {
     },
     ctaLabel: {
       type: String,
-      default: 'Scopri di più'
+      default: ''
     },
     heroHeight: {
       type: String,
@@ -251,6 +256,10 @@ export default {
     }
   },
   computed: {
+    ...mapState(useGenericStore, ['language']),
+    lang() {
+      return this.language === 'en' ? en : it;
+    },
     autoplayCfg() {
       return this.autoplay ? { delay: this.autoplayDelay, disableOnInteraction: false } : false
     },

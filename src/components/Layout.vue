@@ -235,7 +235,7 @@ export default {
 .layout {
   box-sizing: border-box;
   font-family: var(--font-family, 'DM Sans', sans-serif);
-  color: var(--foreground, #1a1a1a);
+  color: var(--foreground);
   background-color: transparent;
 }
 

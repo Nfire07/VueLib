@@ -9,7 +9,7 @@
           v-model="globalSearch"
           type="text"
           class="search-input"
-          :placeholder="searchPlaceholder"
+          :placeholder="searchPlaceholder || lang.datatable.search"
         />
         <button v-if="globalSearch" class="search-clear" @click="globalSearch = ''">
           <span class="material-icons">close</span>
@@ -20,11 +20,11 @@
         <div class="column-toggle-wrapper" v-if="allowColumnToggle">
           <button class="toolbar-btn" @click="columnMenuOpen = !columnMenuOpen">
             <span class="material-icons">view_column</span>
-            <span>Columns</span>
+            <span>{{ lang.datatable.columns }}</span>
           </button>
           <Transition name="dropdown-fade">
             <div v-if="columnMenuOpen" class="column-menu" v-click-outside="() => columnMenuOpen = false">
-              <p class="column-menu-title">Toggle Columns</p>
+              <p class="column-menu-title">{{ lang.datatable.toggleColumns }}</p>
               <label
                 v-for="col in columns"
                 :key="col.key"
@@ -43,7 +43,7 @@
         </div>
 
         <div class="rows-per-page" v-if="allowPagination">
-          <span class="rows-label">Rows</span>
+          <span class="rows-label">{{ lang.datatable.rows }}</span>
           <select v-model="rowsPerPage" class="rows-select">
             <option v-for="opt in rowsPerPageOptions" :key="opt" :value="opt">{{ opt }}</option>
           </select>
@@ -81,7 +81,7 @@
                   v-model="columnFilters[col.key]"
                   type="text"
                   class="col-filter-input"
-                  :placeholder="'Filter ' + col.label"
+                  :placeholder="`${lang.datatable.filter} ${col.label}`"
                 />
               </div>
             </th>
@@ -94,7 +94,7 @@
             <td :colspan="activeColumns.length" class="empty-cell">
               <div class="empty-state">
                 <span class="material-icons empty-icon">search_off</span>
-                <p>No results found</p>
+                <p>{{ lang.datatable.noResults }}</p>
               </div>
             </td>
           </tr>
@@ -136,7 +136,7 @@
           class="page-btn"
           :disabled="currentPage === 1"
           @click="currentPage = 1"
-          aria-label="First page"
+          :aria-label="lang.datatable.firstPage"
         >
           <span class="material-icons">first_page</span>
         </button>
@@ -144,7 +144,7 @@
           class="page-btn"
           :disabled="currentPage === 1"
           @click="currentPage--"
-          aria-label="Previous page"
+          :aria-label="lang.datatable.prevPage"
         >
           <span class="material-icons">chevron_left</span>
         </button>
@@ -162,7 +162,7 @@
           class="page-btn"
           :disabled="currentPage === totalPages"
           @click="currentPage++"
-          aria-label="Next page"
+          :aria-label="lang.datatable.nextPage"
         >
           <span class="material-icons">chevron_right</span>
         </button>
@@ -170,7 +170,7 @@
           class="page-btn"
           :disabled="currentPage === totalPages"
           @click="currentPage = totalPages"
-          aria-label="Last page"
+          :aria-label="lang.datatable.lastPage"
         >
           <span class="material-icons">last_page</span>
         </button>
@@ -180,6 +180,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
+
 export default {
   name: "DataTable",
 
@@ -208,7 +213,7 @@ export default {
     },
     searchPlaceholder: {
       type: String,
-      default: "Search...",
+      default: "",
     },
     allowColumnFilters: {
       type: Boolean,
@@ -248,6 +253,11 @@ export default {
   },
 
   computed: {
+    ...mapState(useGenericStore, ['language']),
+    lang() {
+      return this.language === 'en' ? en : it;
+    },
+
     activeColumns() {
       return this.columns.filter((c) => this.visibleColumns.includes(c.key));
     },
@@ -299,10 +309,10 @@ export default {
 
     paginationInfo() {
       const total = this.filteredRows.length;
-      if (total === 0) return "No results";
+      if (total === 0) return this.lang.datatable.noResults;
       const start = (this.currentPage - 1) * this.rowsPerPage + 1;
       const end = Math.min(this.currentPage * this.rowsPerPage, total);
-      return `${start}–${end} of ${total} rows`;
+      return `${start}–${end} ${this.lang.datatable.of} ${total} ${this.lang.datatable.rowsLower}`;
     },
 
     visiblePages() {

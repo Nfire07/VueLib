@@ -14,7 +14,9 @@
       <span class="alert__icon material-icons-round">{{ icons[type] }}</span>
 
       <div class="alert__body">
-        <p v-if="title" class="alert__title">{{ title }}</p>
+        <p v-if="title || lang.alert.defaultTitle" class="alert__title">
+          {{ title || lang.alert.defaultTitle }}
+        </p>
         <p class="alert__message">{{ message }}</p>
       </div>
 
@@ -22,7 +24,7 @@
         v-if="dismissible"
         class="alert__close"
         type="button"
-        aria-label="Dismiss alert"
+        :aria-label="lang.alert.dismiss"
         @click="dismiss"
       >
         <span class="material-icons-round">close</span>
@@ -32,6 +34,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useGenericStore } from '@/stores/generic'; 
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
+
 export default {
   name: 'Alert',
 
@@ -76,6 +83,14 @@ export default {
         info: 'info',
       },
     };
+  },
+
+  computed: {    
+    ...mapState(useGenericStore, ['language']),
+
+    lang() {
+      return this.language === 'en' ? en : it;
+    }
   },
 
   watch: {

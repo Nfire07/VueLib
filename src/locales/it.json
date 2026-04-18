@@ -1,0 +1,78 @@
+{
+  "alert": {
+    "defaultTitle": "Attenzione",
+    "dismiss": "Chiudi avviso"
+  },
+  "calendar": {
+    "prevMonth": "Mese precedente",
+    "nextMonth": "Mese successivo",
+    "weekdays": ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"],
+    "tasksTitle": "Attività",
+    "noTasks": "Nessuna attività per oggi",
+    "addTask": "Aggiungi attività"
+  },
+  "carousel": {
+    "open": "Apri",
+    "defaultCta": "Scopri di più",
+    "prev": "Precedente",
+    "next": "Successivo",
+    "clickToView": "Clicca per espandere",
+    "close": "Chiudi",
+    "closeBtn": "Chiudi"
+  },
+  "datachart": {
+    "errorLoad": "Impossibile caricare la libreria del grafico."
+  },
+  "dataloader": {
+    "loading": "Caricamento...",
+    "retry": "Riprova",
+    "errorTitle": "Qualcosa è andato storto",
+    "emptyTitle": "Nessun dato trovato",
+    "emptyMessage": "Non c'è ancora nulla da visualizzare qui.",
+    "requestFailed": "Richiesta fallita con stato",
+    "unknownError": "Errore sconosciuto"
+  },
+  "datatable": {
+    "search": "Cerca...",
+    "columns": "Colonne",
+    "toggleColumns": "Seleziona colonne",
+    "rows": "Righe",
+    "filter": "Filtra",
+    "noResults": "Nessun risultato trovato",
+    "of": "di",
+    "rowsLower": "righe",
+    "firstPage": "Prima pagina",
+    "prevPage": "Pagina precedente",
+    "nextPage": "Pagina successiva",
+    "lastPage": "Ultima pagina"
+  },
+  "dynamicform": {
+    "enterPassword": "Inserisci la password",
+    "hidePassword": "Nascondi password",
+    "showPassword": "Mostra password",
+    "selectOption": "Seleziona un'opzione",
+    "selectOptions": "Seleziona opzioni",
+    "chooseFile": "Scegli un file",
+    "addTag": "Aggiungi un tag...",
+    "submit": "Invia",
+    "filesSelected": "file selezionati",
+    "isRequired": "è obbligatorio",
+    "invalidEmail": "Inserisci un indirizzo email valido",
+    "minVal": "Il valore minimo è",
+    "maxVal": "Il valore massimo è",
+    "minChars": "Minimo",
+    "charsRequired": "caratteri richiesti",
+    "invalidFormat": "Formato non valido"
+  },
+  "fab": {
+    "openMenu": "Apri menu"
+  },
+  "gantt": {
+    "today": "Oggi",
+    "complete": "completato"
+  },
+  "languageChanger": {
+    "english": "Passa all'Inglese",
+    "italian": "Passa all'Italiano"
+  }
+}

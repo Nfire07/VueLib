@@ -14,31 +14,24 @@
   Modified by Nfire07
 */
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import { mapState, mapActions } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
 
 export default {
   name: 'ThemeSwitcher',
-  data() {
-    return {
-      theme: 'light'
+  
+  computed: {
+    ...mapState(useGenericStore, ['theme', 'language']),
+    
+    langText() {
+      return this.language === 'en' ? en : it;
     }
   },
-  mounted() {
-    const saved = localStorage.getItem('theme')
-    if (saved) {
-      this.theme = saved
-      this.applyTheme()
-    }
-  },
+  
   methods: {
-    setTheme(t) {
-      this.theme = t
-      localStorage.setItem('theme', t)
-      this.applyTheme()
-    },
-    applyTheme() {
-      const root = document.documentElement
-      root.classList.toggle('dark', this.theme === 'dark')
-    }
+    ...mapActions(useGenericStore, ['setTheme'])
   }
 }
 </script>
@@ -88,7 +81,7 @@ export default {
       role="radio"
       class="theme-switcher_switch"
       :class="{ active: theme === 'light' }"
-      aria-label="Light theme"
+      :aria-label="langText.themeSwitcher?.light || 'Light theme'"
       :aria-checked="theme === 'light'"
       @click="setTheme('light')"
     >
@@ -100,7 +93,7 @@ export default {
       role="radio"
       class="theme-switcher_switch"
       :class="{ active: theme === 'dark' }"
-      aria-label="Dark theme"
+      :aria-label="langText.themeSwitcher?.dark || 'Dark theme'"
       :aria-checked="theme === 'dark'"
       @click="setTheme('dark')"
     >

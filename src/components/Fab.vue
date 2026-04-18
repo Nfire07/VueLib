@@ -18,7 +18,7 @@
     <button
       class="fab-main"
       :class="{ 'fab-main--open': isOpen }"
-      :title="tooltip"
+      :title="tooltip || lang.fab.openMenu"
       @click="toggle"
     >
       <span class="material-icons fab-icon fab-icon--default">{{ icon }}</span>
@@ -28,6 +28,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
+
 export default {
   name: 'Fab',
 
@@ -38,7 +43,7 @@ export default {
     },
     tooltip: {
       type: String,
-      default: 'Open menu'
+      default: '' // Modificato per permettere il fallback al pacchetto di lingua
     },
     position: {
       type: String,
@@ -69,6 +74,10 @@ export default {
   },
 
   computed: {
+    ...mapState(useGenericStore, ['language']),
+    lang() {
+      return this.language === 'en' ? en : it;
+    },
     positionClass() {
       return `fab-container--${this.position}`
     }

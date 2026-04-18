@@ -7,7 +7,7 @@
         <button class="nav-btn" @click="shiftRange(-7)" aria-label="Previous week">
           <span class="material-icons">chevron_left</span>
         </button>
-        <button class="today-btn" @click="jumpToToday">Today</button>
+        <button class="today-btn" @click="jumpToToday">{{ lang.gantt.today }}</button>
         <button class="nav-btn" @click="shiftRange(7)" aria-label="Next week">
           <span class="material-icons">chevron_right</span>
         </button>
@@ -121,7 +121,7 @@
         </p>
         <p class="tooltip-row" v-if="tooltip.task.progress !== undefined">
           <span class="material-icons">trending_up</span>
-          {{ tooltip.task.progress }}% complete
+          {{ tooltip.task.progress }}% {{ lang.gantt.complete }}
         </p>
         <p class="tooltip-row" v-if="tooltip.task.assignee">
           <span class="material-icons">person</span>
@@ -133,6 +133,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
+
 export default {
   name: "Gantt",
 
@@ -186,6 +191,16 @@ export default {
   },
 
   computed: {
+    ...mapState(useGenericStore, ['language']),
+    
+    lang() {
+      return this.language === 'en' ? en : it;
+    },
+
+    currentLocale() {
+      return this.language === 'en' ? 'en-US' : 'it-IT';
+    },
+
     viewDays() {
       return this.views.find((v) => v.key === this.activeView)?.days || 14;
     },
@@ -205,7 +220,7 @@ export default {
         const dow = cur.getDay();
         cols.push({
           date: new Date(cur),
-          dayName: cur.toLocaleDateString("en", { weekday: "short" }),
+          dayName: cur.toLocaleDateString(this.currentLocale, { weekday: "short" }),
           dayNum: cur.getDate(),
           isToday: cur.toDateString() === today.toDateString(),
           isWeekend: dow === 0 || dow === 6,
@@ -228,7 +243,7 @@ export default {
           i++;
         }
         segments.push({
-          label: new Date(year, month, 1).toLocaleDateString("en", { month: "long", year: "numeric" }),
+          label: new Date(year, month, 1).toLocaleDateString(this.currentLocale, { month: "long", year: "numeric" }),
           width: count * this.colWidth,
         });
       }
@@ -241,9 +256,9 @@ export default {
 
     rangeLabel() {
       return (
-        this.viewStart.toLocaleDateString("en", { day: "numeric", month: "short" }) +
+        this.viewStart.toLocaleDateString(this.currentLocale, { day: "numeric", month: "short" }) +
         " – " +
-        this.viewEnd.toLocaleDateString("en", { day: "numeric", month: "short", year: "numeric" })
+        this.viewEnd.toLocaleDateString(this.currentLocale, { day: "numeric", month: "short", year: "numeric" })
       );
     },
 
@@ -309,7 +324,7 @@ export default {
     },
 
     formatDate(date) {
-      return new Date(date).toLocaleDateString("en", { day: "numeric", month: "short", year: "numeric" });
+      return new Date(date).toLocaleDateString(this.currentLocale, { day: "numeric", month: "short", year: "numeric" });
     },
 
     showTooltip(task, event) {

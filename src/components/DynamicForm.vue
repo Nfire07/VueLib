@@ -46,7 +46,7 @@
             :type="passwordVisible[field.name] ? 'text' : 'password'"
             v-model="formData[field.name]"
             :required="field.required"
-            :placeholder="field.placeholder || 'Enter password'"
+            :placeholder="field.placeholder || lang.dynamicform.enterPassword"
             class="custom-input"
             @blur="validateField(field)"
           />
@@ -54,7 +54,7 @@
             type="button"
             class="password-toggle"
             @click="togglePasswordVisibility(field.name)"
-            :aria-label="passwordVisible[field.name] ? 'Hide password' : 'Show password'"
+            :aria-label="passwordVisible[field.name] ? lang.dynamicform.hidePassword : lang.dynamicform.showPassword"
           >
             <span class="material-icons-round eye-icon">
               {{ passwordVisible[field.name] ? 'visibility_off' : 'visibility' }}
@@ -87,7 +87,7 @@
           :options="field.options"
           optionLabel="label"
           optionValue="value"
-          :placeholder="field.placeholder || 'Select an option'"
+          :placeholder="field.placeholder || lang.dynamicform.selectOption"
           class="custom-input custom-dropdown"
           @change="validateField(field)"
         />
@@ -99,7 +99,7 @@
           :options="field.options"
           optionLabel="label"
           optionValue="value"
-          :placeholder="field.placeholder || 'Select options'"
+          :placeholder="field.placeholder || lang.dynamicform.selectOptions"
           :maxSelectedLabels="field.maxSelectedLabels || 3"
           class="custom-input custom-dropdown"
           @change="validateField(field)"
@@ -185,7 +185,7 @@
         <div v-else-if="field.type === 'file'" class="file-wrapper">
           <label :for="field.name" class="file-label">
             <span class="material-icons-round file-icon">attach_file</span>
-            <span class="file-text">{{ fileNames[field.name] || (field.placeholder || 'Choose a file') }}</span>
+            <span class="file-text">{{ fileNames[field.name] || (field.placeholder || lang.dynamicform.chooseFile) }}</span>
           </label>
           <input
             :id="field.name"
@@ -235,7 +235,7 @@
               </button>
             </span>
             <input
-              :placeholder="field.placeholder || 'Add a tag...'"
+              :placeholder="field.placeholder || lang.dynamicform.addTag"
               class="tag-input"
               @keydown.enter.prevent="addTag($event, field.name)"
               @keydown.comma.prevent="addTag($event, field.name)"
@@ -257,7 +257,7 @@
 
       <Button
         type="submit"
-        :label="submitText"
+        :label="submitText || lang.dynamicform.submit"
         :loading="loading"
         class="submit-btn"
         :disabled="loading"
@@ -267,6 +267,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useGenericStore } from '@/stores/generic';
+import it from '@/locales/it.json';
+import en from '@/locales/en.json';
+
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import Select from 'primevue/select';
@@ -303,7 +308,7 @@ export default {
     },
     submitText: {
       type: String,
-      default: 'Submit',
+      default: '',
     },
     loading: {
       type: Boolean,
@@ -320,6 +325,13 @@ export default {
       passwordVisible: {},
       fileNames: {},
     };
+  },
+
+  computed: {
+    ...mapState(useGenericStore, ['language']),
+    lang() {
+      return this.language === 'en' ? en : it;
+    }
   },
 
   created() {
@@ -352,7 +364,7 @@ export default {
       if (!files.length) return;
       this.formData[field.name] = field.multiple ? Array.from(files) : files[0];
       this.fileNames[field.name] = field.multiple
-        ? `${files.length} files selected`
+        ? `${files.length} ${this.lang.dynamicform.filesSelected}`
         : files[0].name;
     },
 
@@ -381,29 +393,29 @@ export default {
           value === '' ||
           (Array.isArray(value) && value.length === 0);
         if (isEmpty) {
-          error = field.errorMessage || `${field.label} is required`;
+          error = field.errorMessage || `${field.label} ${this.lang.dynamicform.isRequired}`;
         }
       }
 
       if (!error && field.type === 'email' && value) {
         const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRe.test(value)) error = 'Please enter a valid email address';
+        if (!emailRe.test(value)) error = this.lang.dynamicform.invalidEmail;
       }
 
       if (!error && field.type === 'number' && value !== null && value !== '') {
         if (field.min !== undefined && Number(value) < field.min)
-          error = `Minimum value is ${field.min}`;
+          error = `${this.lang.dynamicform.minVal} ${field.min}`;
         if (field.max !== undefined && Number(value) > field.max)
-          error = `Maximum value is ${field.max}`;
+          error = `${this.lang.dynamicform.maxVal} ${field.max}`;
       }
 
       if (!error && field.minLength && value && value.length < field.minLength) {
-        error = `Minimum ${field.minLength} characters required`;
+        error = `${this.lang.dynamicform.minChars} ${field.minLength} ${this.lang.dynamicform.charsRequired}`;
       }
 
       if (!error && field.pattern && value) {
         const re = new RegExp(field.pattern);
-        if (!re.test(value)) error = field.patternMessage || 'Invalid format';
+        if (!re.test(value)) error = field.patternMessage || this.lang.dynamicform.invalidFormat;
       }
 
       if (!error && field.validate) {

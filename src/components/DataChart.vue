@@ -10,6 +10,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia'
+import { useGenericStore } from '@/stores/generic'
+import it from '@/locales/it.json'
+import en from '@/locales/en.json'
+
 const CHART_JS_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js'
 
 const SUPPORTED_TYPES = ['line', 'bar', 'pie', 'doughnut', 'radar', 'polarArea', 'bubble', 'scatter']
@@ -148,6 +153,12 @@ export default {
   },
 
   computed: {
+    ...mapState(useGenericStore, ['language']),
+    
+    lang() {
+      return this.language === 'en' ? en : it;
+    },
+
     containerStyle() {
       const style = {}
       if (this.width) style.width = this.width
@@ -333,7 +344,7 @@ export default {
       await loadScript(CHART_JS_CDN)
       this.initChart()
     } catch (e) {
-      this.error = 'Failed to load chart library.'
+      this.error = this.lang.datachart.errorLoad
     }
   },
 
