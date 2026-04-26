@@ -11,6 +11,10 @@
     "noTasks": "No tasks for today",
     "addTask": "Add task"
   },
+  "card": {
+    "readMore": "Read more",
+    "viewDetails": "View details"
+  },
   "carousel": {
     "open": "Open",
     "defaultCta": "Discover more",

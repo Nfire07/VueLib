@@ -6,38 +6,47 @@ Navigation bar with links and theme/language switchers.
 
 | Prop | Type | Default | Required | Description |
 |------|------|--------|---------|-------------|
-| `links` | `Array` | `[]` | No | Array of link objects |
-| `iconLabel` | `String` | `'Home'` | No | Home icon label |
+| `links` | `Array` | `[]` | No | Array of link objects or strings |
+| `iconLabel` | `String` | `'Home'` | No | Home icon label text |
 | `iconPath` | `String` | `'/favicon.ico'` | No | Icon image path |
 
 ### Link Structure
 
+The `links` prop accepts two formats:
+
+**String format**:
 ```javascript
-{
-  label: String,    // display text
-  href: String     // link URL
-}
+['Home', 'Products', 'About']
 ```
 
-## Requirements
-
-None - integrates ThemeChanger and LanguageChanger.
+**Object format** (recommended):
+```javascript
+[
+  { name: 'Home', link: '/home' },
+  { name: 'Docs', link: '/docs' },
+  { name: 'GitHub', link: 'https://github.com' }
+]
+```
 
 ## Usage
 
 ```vue
-<Navbar
-  :links="[
-    { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' }
-  ]"
-/>
+<!-- String format -->
+<Navbar :links="['Home', 'Products', 'About']" />
+
+<!-- Object format -->
+<Navbar :links="[
+  { name: 'Home', link: '/home' },
+  { name: 'Docs', link: '/docs' }
+]" />
 ```
 
 ## Features
 
-- Logo/icon slot
-- Horizontal scrollable links
-- Integrated ThemeChanger
-- Integrated LanguageChanger
+- Logo/icon slot with expand on hover
+- Horizontal scrollable links (hidden scrollbar)
+- Links rotate on horizontal to vertical display
+- Integrated ThemeChanger component
+- Integrated LanguageChanger component
 - Transparent background
+- Responsive design with breakpoint

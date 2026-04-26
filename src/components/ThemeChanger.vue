@@ -55,6 +55,7 @@ export default {
   border: 0;
   background: none;
   cursor: pointer;
+  color:var(--foreground);
 }
 
 .theme-switcher_switch.active {
@@ -62,11 +63,11 @@ export default {
 }
 
 .theme-switcher_switch:hover > .icon {
-  color: #323232;
+  color: var(--foreground);
 }
 
 .theme-switcher_switch.active > .icon {
-  color: white;
+  color: var(--foreground);
 }
 
 .icon {

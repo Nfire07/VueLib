@@ -1,19 +1,10 @@
 # ThemeChanger
 
-Light/dark theme toggle component.
+Light/dark theme switcher component.
 
 ## Props
 
 None.
-
-## Emits
-
-None - updates Pinia store directly.
-
-## Requirements
-
-- **Pinia Store**: Uses `useGenericStore` for theme/language
-- **Locale Files**: Imports `en.json` / `it.json`
 
 ## Usage
 
@@ -23,6 +14,8 @@ None - updates Pinia store directly.
 
 ## Features
 
-- Toggle between light and dark themes
-- Saves preference to store
-- Uses CSS variables for theming
+- Two-button toggle (light_mode / dark_mode)
+- Active state highlighting
+- ARIA radiogroup attributes
+- Updates Pinia store on change
+- Uses store for localization

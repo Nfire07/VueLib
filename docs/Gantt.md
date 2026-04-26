@@ -15,24 +15,18 @@ Gantt chart component for task timeline visualization.
 ```javascript
 {
   id: Number,
-  name: String,           // task name
-  start: Date,           // start date
-  end: Date,             // end date
-  progress: Number,      // 0-100
-  assignee: String,      // assignee name
-  color: String         // bar color
+  name: String,         // task name
+  start: Date,        // start date
+  end: Date,          // end date
+  progress: Number,     // 0-100 percentage
+  assignee: String,   // assignee name
+  color: String       // task bar color
 }
 ```
 
-## Emits
+## Events
 
-None - component is self-contained.
-
-## Requirements
-
-- **Pinia Store**: Uses `useGenericStore` for language state
-- **Locale Files**: Imports `en.json` / `it.json`
-- **Material Icons**: Requires Material Icons font
+None - the component is self-contained.
 
 ## Usage
 
@@ -40,25 +34,26 @@ None - component is self-contained.
 <Gantt
   :tasks="myTasks"
   :initial-start-date="new Date()"
-  col-width="50"
+  :col-width="50"
 />
 ```
 
 ## Views
 
-- **1W**: 7 days
-- **2W**: 14 days (default)
-- **1M**: 30 days
-- **3M**: 90 days
+- **1W**: 7 days view
+- **2W**: 14 days view (default)
+- **1M**: 30 days view
+- **3M**: 90 days view
 
 ## Features
 
 - Multiple view ranges (1W, 2W, 1M, 3M)
-- Today highlighting
-- Weekend highlighting
-- Task bars with progress
-- Tooltip on hover
-- Scroll horizontal
-- Task color per task
+- Today column highlighting
+- Weekend column highlighting
+- Task bars with progress overlay
+- Task color customization
+- Tooltip on hover with details
+- Horizontal scrolling
 - Month segment headers
+- Today line indicator
 - Localized weekday/month names

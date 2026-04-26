@@ -15,6 +15,7 @@
 */
 import ThemeChanger from './ThemeChanger.vue';
 import LanguageChanger from './LanguageChanger.vue';
+
 export default {
   name: 'Navbar',
   props: {
@@ -32,8 +33,13 @@ export default {
     }
   },
   computed: {
-    computedLinks() {
-      return ["icon", ...this.links];
+    processedLinks() {
+      return this.links.map(link => {
+        if (typeof link === 'string') {
+          return { name: link, link: `/${link.toLowerCase()}` };
+        }
+        return { name: link.name, link: link.link || '/' };
+      });
     }
   },
   components:{
@@ -80,11 +86,6 @@ export default {
   border-radius: 8px;
   transition: max-width 0.4s ease-in-out, width 0.4s ease-in-out, background 0.4s;
 }
-
-.link-slot{
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
-
 
 .icon-slot {
   width: max-content; 
@@ -133,6 +134,7 @@ export default {
 
 .link-slot {
   width: 40px; 
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .link-slot:hover {
@@ -193,22 +195,22 @@ export default {
   <nav class="navbar-wrapper">
     <div class="card">
       <div
-        v-for="(link, index) in computedLinks"
-        :key="index"
-        :class="link === 'icon' ? 'icon-slot' : 'link-slot'"
+        class="icon-slot"
       >
-        <template v-if="link === 'icon'">
-          <a href="/home" class="icon-link">
-            <img :src="iconPath" alt="APPLICATION ICON" class="icon-img"/>
-            <span class="icon-label" v-html="iconLabel"></span>
-          </a>
-        </template>
+        <a href="/home" class="icon-link">
+          <img :src="iconPath" alt="APPLICATION ICON" class="icon-img"/>
+          <span class="icon-label" v-html="iconLabel"></span>
+        </a>
+      </div>
 
-        <template v-else>
-          <a :href="`/${link.toLowerCase()}`" class="nav-link">
-            <span>{{ link }}</span>
-          </a>
-        </template>
+      <div
+        v-for="(link, index) in processedLinks"
+        :key="index"
+        class="link-slot"
+      >
+        <a :href="link.link" class="nav-link">
+          <span>{{ link.name }}</span>
+        </a>
       </div>
     </div>
     <ThemeChanger/>

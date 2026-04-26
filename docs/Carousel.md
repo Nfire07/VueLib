@@ -19,29 +19,23 @@ Multi-variant carousel component with Swiper.js.
 
 ```javascript
 {
-  title: String,
-  description: String,
-  fullText: String,       // for modal
-  tag: String,             // optional tag
-  image: String,           // image URL
-  emoji: String,          // fallback emoji
-  color: String           // fallback color
+  title: String,        // slide title
+  description: String,  // slide description
+  fullText: String,    // modal content (optional)
+  tag: String,       // optional tag/chip
+  image: String,      // image URL
+  emoji: String,      // fallback emoji
+  color: String       // fallback background color
 }
 ```
 
-## Emits
+## Events
 
 | Event | Payload | Description |
-|-------|--------|-------------|
+|-------|---------|-------------|
 | `modal-open` | `Object` | Item opened in modal |
 | `modal-close` | `Object` | Modal closed |
 | `cta-click` | `Object` | CTA button clicked |
-
-## Requirements
-
-- **Pinia Store**: Uses `useGenericStore` for language state
-- **Locale Files**: Imports `en.json` / `it.json`
-- **Swiper**: Uses Swiper.js modules
 
 ## Usage
 
@@ -60,13 +54,14 @@ Multi-variant carousel component with Swiper.js.
 - **classic**: Cards with image, tag, description, CTA
 - **hero**: Full-width hero slides with gradient overlay
 - **fullscreen**: Fullscreen slides with counter
-- **cards**: Stacked card effect
-- **coverflow**: 3D coverflow effect
+- **cards**: Stacked card effect with flip
+- **coverflow**: 3D coverflow effect with rotation
 
 ## Features
 
 - Multiple variants with unique styling
 - Modal support for all variants
 - Autoplay with progress bar (hero)
-- Keyboard accessibility
+- Keyboard accessibility (A11y)
 - Navigation/pagination (Swiper)
+- Smooth transitions and animations

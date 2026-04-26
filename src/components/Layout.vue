@@ -1,18 +1,53 @@
 <template>
   <component
     :is="tag"
-    class="layout"
     :style="computedStyle"
-    :class="`layout--${resolvedMode}`"
+    :class="['layout', { 'layout--container': container }]"
   >
-    <slot />
+    <div v-if="container" class="layout__container">
+      <slot />
+    </div>
+    <slot v-else />
   </component>
 </template>
 
 <script>
-const FR_PATTERN = /^(\d+(\.\d+)?fr\s*)+$/
-const COLUMNS_PATTERN = /^\d+$/
-const FR_WITH_OTHERS = /^[\d.]+fr(\s+[\d.]+fr|\s+\d+(px|rem|em|%))*(\s+[\d.]+fr|\s+\d+(px|rem|em|%))*$/
+const UNITLESS = new Set(['flex', 'order', 'flexGrow', 'flexShrink', 'gridColumn', 'gridRow', 'zIndex', 'opacity'])
+
+function unit(val, prop) {
+  if (val === null || val === undefined || val === '') return undefined
+  if (typeof val === 'number') return UNITLESS.has(prop) ? val : `${val}px`
+  return val
+}
+
+function resolveColumns(val) {
+  if (!val && val !== 0) return undefined
+  if (typeof val === 'number') return `repeat(${val}, 1fr)`
+  return val
+}
+
+function resolveRows(val) {
+  if (!val && val !== 0) return undefined
+  if (typeof val === 'number') return `repeat(${val}, 1fr)`
+  return val
+}
+
+function resolveAreas(val) {
+  if (!val) return undefined
+  if (Array.isArray(val)) return val.map(r => `"${r}"`).join(' ')
+  return val
+}
+
+function resolveDisplay(type, inline) {
+  const t = (type || '').toLowerCase().trim()
+  const isGrid = t === 'grid' || t === 'inline-grid' || /^\d+$/.test(t) || t.includes('fr') || t.includes('repeat(') || t.includes('minmax(')
+  if (inline) return isGrid ? 'inline-grid' : 'inline-flex'
+  return isGrid ? 'grid' : 'flex'
+}
+
+function isGridDisplay(display) {
+  return display === 'grid' || display === 'inline-grid'
+}
 
 export default {
   name: 'Layout',
@@ -22,210 +57,331 @@ export default {
       type: String,
       default: 'div',
     },
+
     type: {
       type: String,
       default: 'flex',
     },
-    columns: {
-      type: [String, Number],
-      default: null,
-    },
-    rows: {
-      type: [String, Number],
-      default: null,
-    },
-    gap: {
-      type: [String, Number],
-      default: '1rem',
-    },
-    rowGap: {
-      type: [String, Number],
-      default: null,
-    },
-    columnGap: {
-      type: [String, Number],
-      default: null,
-    },
-    align: {
-      type: String,
-      default: null,
-    },
-    justify: {
-      type: String,
-      default: null,
-    },
-    direction: {
-      type: String,
-      default: null,
-    },
-    wrap: {
-      type: Boolean,
-      default: true,
-    },
+
     inline: {
       type: Boolean,
       default: false,
     },
-    minWidth: {
+
+    container: {
+      type: Boolean,
+      default: false,
+    },
+
+    containerMaxWidth: {
+      type: [String, Number],
+      default: '1400px',
+    },
+
+    containerPadding: {
       type: String,
+      default: '0 1.5rem',
+    },
+
+    columns: {
+      type: [String, Number],
       default: null,
     },
-    autoFill: {
-      type: Boolean,
-      default: false,
+
+    rows: {
+      type: [String, Number],
+      default: null,
     },
-    autoFit: {
-      type: Boolean,
-      default: false,
-    },
+
     areas: {
       type: [String, Array],
       default: null,
     },
-    padding: {
+
+    autoFill: {
+      type: Boolean,
+      default: false,
+    },
+
+    autoFit: {
+      type: Boolean,
+      default: false,
+    },
+
+    minWidth: {
       type: String,
       default: null,
     },
-    width: {
+
+    direction: {
+      type: String,
+      default: 'row',
+    },
+
+    wrap: {
+      type: [Boolean, String],
+      default: true,
+    },
+
+    gap: {
+      type: [String, Number],
+      default: null,
+    },
+
+    rowGap: {
+      type: [String, Number],
+      default: null,
+    },
+
+    columnGap: {
+      type: [String, Number],
+      default: null,
+    },
+
+    align: {
       type: String,
       default: null,
     },
-    height: {
+
+    alignContent: {
       type: String,
       default: null,
     },
-    maxWidth: {
+
+    justify: {
       type: String,
       default: null,
     },
+
+    justifyItems: {
+      type: String,
+      default: null,
+    },
+
+    place: {
+      type: String,
+      default: null,
+    },
+
+    placeItems: {
+      type: String,
+      default: null,
+    },
+
+    placeContent: {
+      type: String,
+      default: null,
+    },
+
     center: {
       type: Boolean,
       default: false,
     },
-    margin:{
-        type: String,
-        defautl: "0px",
+
+    width: {
+      type: String,
+      default: null,
+    },
+
+    height: {
+      type: String,
+      default: null,
+    },
+
+    minHeight: {
+      type: String,
+      default: null,
+    },
+
+    maxWidth: {
+      type: [String, Number],
+      default: null,
+    },
+
+    maxHeight: {
+      type: [String, Number],
+      default: null,
+    },
+
+    padding: {
+      type: String,
+      default: null,
+    },
+
+    margin: {
+      type: String,
+      default: null,
+    },
+
+    grow: {
+      type: [Boolean, Number],
+      default: null,
+    },
+
+    shrink: {
+      type: [Boolean, Number],
+      default: null,
+    },
+
+    basis: {
+      type: String,
+      default: null,
+    },
+
+    flex: {
+      type: String,
+      default: null,
+    },
+
+    position: {
+      type: String,
+      default: null,
+    },
+
+    overflow: {
+      type: String,
+      default: null,
+    },
+
+    overflowX: {
+      type: String,
+      default: null,
+    },
+
+    overflowY: {
+      type: String,
+      default: null,
+    },
+
+    zIndex: {
+      type: Number,
+      default: null,
+    },
+
+    background: {
+      type: String,
+      default: null,
+    },
+
+    borderRadius: {
+      type: [String, Number],
+      default: null,
+    },
+
+    dense: {
+      type: Boolean,
+      default: false,
+    },
+
+    fullHeight: {
+      type: Boolean,
+      default: false,
+    },
+
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    },
+
+    stack: {
+      type: Boolean,
+      default: false,
+    },
+
+    reverse: {
+      type: Boolean,
+      default: false,
     },
   },
 
   computed: {
-    resolved() {
-      return this.parseTemplateType(this.type)
-    },
-
-    resolvedMode() {
-      return this.resolved.mode
-    },
-
     computedStyle() {
       const style = {}
-      const { mode, columns: tplColumns, direction: tplDirection } = this.resolved
-      const displayPrefix = this.inline ? 'inline-' : ''
 
-      if (mode === 'grid') {
-        style.display = `${displayPrefix}grid`
+      const display = resolveDisplay(this.type, this.inline)
+      style.display = display
+      const isGrid = isGridDisplay(display)
 
-        const cols = this.columns
-          ? typeof this.columns === 'number'
-            ? `repeat(${this.columns}, 1fr)`
-            : this.columns
-          : tplColumns
-
+      if (isGrid) {
         if (this.autoFill && this.minWidth) {
           style.gridTemplateColumns = `repeat(auto-fill, minmax(${this.minWidth}, 1fr))`
         } else if (this.autoFit && this.minWidth) {
           style.gridTemplateColumns = `repeat(auto-fit, minmax(${this.minWidth}, 1fr))`
-        } else if (cols) {
-          style.gridTemplateColumns = cols
+        } else if (this.columns) {
+          style.gridTemplateColumns = resolveColumns(this.columns)
         }
 
         if (this.rows) {
-          style.gridTemplateRows =
-            typeof this.rows === 'number' ? `repeat(${this.rows}, 1fr)` : this.rows
+          style.gridTemplateRows = resolveRows(this.rows)
         }
 
         if (this.areas) {
-          const areasValue = Array.isArray(this.areas)
-            ? this.areas.map((row) => `"${row}"`).join(' ')
-            : this.areas
-          style.gridTemplateAreas = areasValue
+          style.gridTemplateAreas = resolveAreas(this.areas)
+        }
+
+        if (this.dense) {
+          style.gridAutoFlow = 'dense'
+        }
+
+        if (this.justifyItems) style.justifyItems = this.justifyItems
+        if (this.placeItems) style.placeItems = this.placeItems
+        if (this.placeContent) style.placeContent = this.placeContent
+        if (this.place) {
+          style.placeItems = this.place
+          style.placeContent = this.place
         }
       } else {
-        style.display = `${displayPrefix}flex`
+        const stackDir = this.stack ? 'column' : this.direction
+        const map = { col: 'column', column: 'column', stack: 'column', row: 'row' }
+        const base = map[stackDir] || stackDir || 'row'
+        style.flexDirection = this.reverse ? `${base}-reverse` : base
 
-        const dir = this.direction || tplDirection
-        if (dir === 'col' || dir === 'column' || dir === 'stack') {
-          style.flexDirection = 'column'
-        } else if (dir === 'row') {
-          style.flexDirection = 'row'
-        } else if (dir) {
-          style.flexDirection = dir
+        if (this.flex) {
+          style.flex = this.flex
+        } else {
+          if (this.grow !== null) style.flexGrow = this.grow === true ? 1 : this.grow === false ? 0 : this.grow
+          if (this.shrink !== null) style.flexShrink = this.shrink === true ? 1 : this.shrink === false ? 0 : this.shrink
+          if (this.basis) style.flexBasis = this.basis
         }
 
-        style.flexWrap = this.wrap ? 'wrap' : 'nowrap'
+        const wrapVal = typeof this.wrap === 'string' ? this.wrap : this.wrap ? 'wrap' : 'nowrap'
+        style.flexWrap = this.reverse && wrapVal === 'wrap' ? 'wrap-reverse' : wrapVal
       }
 
-      const gapValue = this.normalizeGap(this.gap)
-      if (this.rowGap || this.columnGap) {
-        if (this.rowGap) style.rowGap = this.normalizeGap(this.rowGap)
-        if (this.columnGap) style.columnGap = this.normalizeGap(this.columnGap)
-      } else if (gapValue) {
-        style.gap = gapValue
-      }
+      if (this.gap !== null) style.gap = unit(this.gap)
+      if (this.rowGap !== null) style.rowGap = unit(this.rowGap)
+      if (this.columnGap !== null) style.columnGap = unit(this.columnGap)
 
       if (this.align) style.alignItems = this.align
+      if (this.alignContent) style.alignContent = this.alignContent
       if (this.justify) style.justifyContent = this.justify
-      if (this.padding) style.padding = this.padding
-      if (this.width) style.width = this.width
-      if (this.height) style.height = this.height
-      if (this.maxWidth) style.maxWidth = this.maxWidth
 
       if (this.center) {
         style.marginInline = 'auto'
         if (!this.maxWidth) style.maxWidth = '100%'
       }
 
-      if (this.margin && this.margin !== '0') style.margin = this.margin
+      if (this.width) style.width = this.width
+      else if (this.fullWidth) style.width = '100%'
+
+      if (this.height) style.height = this.height
+      else if (this.fullHeight) style.height = '100%'
+
+      if (this.minHeight) style.minHeight = this.minHeight
+      if (this.maxWidth !== null) style.maxWidth = unit(this.maxWidth)
+      if (this.maxHeight !== null) style.maxHeight = unit(this.maxHeight)
+
+      if (this.padding) style.padding = this.padding
+      if (this.margin) style.margin = this.margin
+      if (this.position) style.position = this.position
+      if (this.overflow) style.overflow = this.overflow
+      if (this.overflowX) style.overflowX = this.overflowX
+      if (this.overflowY) style.overflowY = this.overflowY
+      if (this.zIndex !== null) style.zIndex = this.zIndex
+      if (this.background) style.background = this.background
+      if (this.borderRadius !== null) style.borderRadius = unit(this.borderRadius)
 
       return style
-    },
-  },
-
-  methods: {
-    normalizeGap(value) {
-      if (!value && value !== 0) return null
-      if (typeof value === 'number') return `${value}px`
-      return value
-    },
-
-    parseTemplateType(type) {
-      const trimmed = type.trim()
-
-      if (FR_PATTERN.test(trimmed)) {
-        return { mode: 'grid', columns: trimmed }
-      }
-
-      if (COLUMNS_PATTERN.test(trimmed)) {
-        return { mode: 'grid', columns: `repeat(${trimmed}, 1fr)` }
-      }
-
-      if (FR_WITH_OTHERS.test(trimmed)) {
-        return { mode: 'grid', columns: trimmed }
-      }
-
-      if (trimmed.includes('repeat(') || trimmed.includes('minmax(')) {
-        return { mode: 'grid', columns: trimmed }
-      }
-
-      if (/^(flex|row|col|column|stack|wrap)$/.test(trimmed)) {
-        return { mode: 'flex', direction: trimmed }
-      }
-
-      if (/^grid$/.test(trimmed)) {
-        return { mode: 'grid', columns: null }
-      }
-
-      return { mode: 'flex', direction: null }
     },
   },
 }
@@ -234,16 +390,17 @@ export default {
 <style scoped>
 .layout {
   box-sizing: border-box;
-  font-family: var(--font-family, 'DM Sans', sans-serif);
-  color: var(--foreground);
-  background-color: transparent;
 }
 
-.layout--grid {
-  align-content: start;
+.layout--container {
+  width: 100%;
 }
 
-.layout--flex {
-  align-content: flex-start;
+.layout__container {
+  width: 100%;
+  max-width: v-bind('typeof containerMaxWidth === "number" ? containerMaxWidth + "px" : containerMaxWidth');
+  padding: v-bind('containerPadding');
+  margin-inline: auto;
+  box-sizing: border-box;
 }
 </style>

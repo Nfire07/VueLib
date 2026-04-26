@@ -11,7 +11,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@docs': fileURLToPath(new URL('./docs', import.meta.url)),
     },
   },
+  assetsInclude: ['**/*.md'],
 })

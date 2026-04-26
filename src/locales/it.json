@@ -11,6 +11,10 @@
     "noTasks": "Nessuna attività per oggi",
     "addTask": "Aggiungi attività"
   },
+  "card": {
+    "readMore": "Leggi tutto",
+    "viewDetails": "Visualizza dettagli"
+  },
   "carousel": {
     "open": "Apri",
     "defaultCta": "Scopri di più",

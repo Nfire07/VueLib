@@ -23,18 +23,11 @@ Event calendar component with day modal and task creation.
 ]
 ```
 
-## Emits
+## Events
 
 | Event | Payload | Description |
-|-------|--------|-------------|
+|-------|---------|-------------|
 | `submit-form` | `Object` | Form data with `date` field added |
-
-## Requirements
-
-- **Pinia Store**: Uses `useGenericStore` for language state
-- **Locale Files**: Imports `en.json` / `it.json`
-- **Dependencies**: Requires `DynamicForm` component
-- **Material Icons**: Requires Material Icons font
 
 ## Usage
 
@@ -49,9 +42,9 @@ Event calendar component with day modal and task creation.
 
 ## Features
 
-- Month navigation (prev/next)
-- Today highlighting
-- Event dots indicator on days
-- Day modal with event list
-- Embedded DynamicForm for adding tasks
-- Localized weekday/month names
+- Month navigation (prev/next buttons)
+- Today highlighting with circle indicator
+- Event dots indicator (max 3) on days with events
+- Day click opens modal with event list
+- Embedded DynamicForm for adding new tasks
+- Localized weekday/month names via store

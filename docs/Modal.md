@@ -13,22 +13,18 @@ Reusable modal dialog with Teleport, backdrop, and keyboard support.
 | `closeOnEsc` | `Boolean` | `true` | No | Close on Escape key |
 | `padding` | `String` | `'2rem'` | No | Modal padding |
 
-## Emits
+## Events
 
 | Event | Payload | Description |
-|-------|--------|-------------|
+|-------|---------|-------------|
 | `update:modelValue` | `Boolean` | Visibility state change |
 | `close` | - | Modal closed |
-
-## Requirements
-
-None - this is a generic UI component with no external dependencies.
 
 ## Usage
 
 ```vue
 <Modal v-model="showModal" width="600px" :close-on-esc="true">
-  <h2>Modal Content</h2>
+  <h2>Modal Title</h2>
   <p>Your content here</p>
 </Modal>
 ```
@@ -36,9 +32,9 @@ None - this is a generic UI component with no external dependencies.
 ## Features
 
 - Teleport to body
-- Backdrop with blur
+- Backdrop with blur effect
 - Close on overlay click
 - Close on Escape key
 - Body overflow lock
-- Smooth transition animation
-- ARIA attributes for accessibility
+- Smooth scale/translate transition
+- ARIA dialog attributes

@@ -72,7 +72,7 @@ export default {
   padding: 6px 10px;
   border-radius: 9999px;
   cursor: pointer;
-  color:#fefefe;
+  color:var(--foreground);
 }
 
 .lang-btn:hover {

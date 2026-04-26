@@ -1,21 +1,17 @@
 # Hero
 
-Demo hero section component using Carousel.
+Hero section component using Carousel for demo/landing pages.
 
 ## Props
 
-None - component is self-contained with hardcoded slides.
+None - component uses hardcoded slides internally based on a 3D printing business theme.
 
-## Emits
+## Events
 
 | Event | Payload | Description |
 |-------|---------|-------------|
-| `modal-open` | `Object` | Modal opened |
-| `cta-click` | `Object` | CTA clicked |
-
-## Requirements
-
-None - demo component using Carousel internally.
+| `modal-open` | `Object` | Modal opened with slide data |
+| `cta-click` | `Object` | CTA button clicked |
 
 ## Usage
 
@@ -27,6 +23,8 @@ None - demo component using Carousel internally.
 
 - Demo component with sample slides
 - Uses Carousel with hero variant
-- Autoplay enabled
-- Additional save button slot
-- Console logging for events
+- Autoplay enabled (5000ms delay)
+- 80vh height
+- Save button in hero action slot
+- Modal with full text on click
+- Console logging for events (for demo)

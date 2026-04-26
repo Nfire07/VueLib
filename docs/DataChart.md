@@ -8,10 +8,10 @@ Chart.js wrapper for rendering charts.
 |------|------|--------|---------|-------------|
 | `type` | `String` | `'line'` | No | Chart type: `'line'`, `'bar'`, `'pie'`, `'doughnut'`, `'radar'`, `'polarArea'`, `'bubble'`, `'scatter'` |
 | `labels` | `Array` | `[]` | No | X-axis labels |
-| `datasets` | `Array` | `[]` | No | Data sets |
+| `datasets` | `Array` | `[]` | No | Data sets array |
 | `title` | `String` | `null` | No | Chart title |
 | `subtitle` | `String` | `null` | No | Chart subtitle |
-| `width` | `String` | `'100%'` | No | Chart width |
+| `width` | `String` | `'100%'` | No | Chart container width |
 | `height` | `String` | `'320px'` | No | Chart height |
 | `colors` | `Array` | `[]` | No | Custom colors array |
 | `fill` | `Boolean` | `false` | No | Fill area under line |
@@ -29,7 +29,7 @@ Chart.js wrapper for rendering charts.
 | `yLabel` | `String` | `null` | No | Y-axis label |
 | `options` | `Object` | `{}` | No | Additional Chart.js options |
 | `animate` | `Boolean` | `true` | No | Enable animation |
-| `animationDuration` | `Number` | `800` | No | Animation duration (ms) |
+| `animationDuration` | `Number` | `800` | No | Animation duration in ms |
 | `padding` | `String` | `null` | No | Container padding |
 | `background` | `String` | `null` | No | Container background |
 
@@ -37,21 +37,15 @@ Chart.js wrapper for rendering charts.
 
 ```javascript
 {
-  label: String,        // dataset label
-  data: Array,        // array of numbers
-  borderColor: String, // line color
+  label: String,          // dataset label
+  data: Array,          // array of numbers
+  borderColor: String,   // line/border color
   backgroundColor: String, // fill color
-  fill: Boolean,      // fill this dataset
-  tension: Number,    // curve tension
-  borderWidth: Number // line width
+  fill: Boolean,       // fill this dataset
+  tension: Number,    // curve tension override
+  borderWidth: Number // border width override
 }
 ```
-
-## Requirements
-
-- **Pinia Store**: Uses `useGenericStore` for language state
-- **Locale Files**: Imports `en.json` / `it.json`
-- **Chart.js**: Dynamically loaded from CDN
 
 ## Usage
 
@@ -68,12 +62,12 @@ Chart.js wrapper for rendering charts.
 
 ## Features
 
-- Multiple chart types
+- Multiple chart types (line, bar, pie, doughnut, radar, polarArea, bubble, scatter)
 - Multi-dataset support
-- Custom colors
-- Dynamic Chart.js loading
+- Custom colors with auto-fallback to theme colors
+- Dynamic Chart.js CDN loading
 - Responsive sizing
 - Animation control
 - Grid/legend/tooltip toggles
 - Stacked/horizontal bars
-- Theme color integration
+- Theme CSS variable integration

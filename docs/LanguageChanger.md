@@ -6,16 +6,11 @@ EN/IT language switcher component.
 
 None.
 
-## Emits
+## Events
 
 | Event | Payload | Description |
 |-------|---------|-------------|
 | `change` | `String` | Language changed (`'en'` or `'it'`) |
-
-## Requirements
-
-- **Pinia Store**: Uses `useGenericStore` for state
-- **Locale Files**: Imports `en.json` / `it.json`
 
 ## Usage
 
@@ -25,7 +20,8 @@ None.
 
 ## Features
 
-- Two-button toggle (EN/IT)
+- Two-button toggle (EN / IT)
 - Active state highlighting
-- ARIA attributes for accessibility
+- ARIA radiogroup attributes
 - Updates Pinia store on change
+- Uses store for localization

@@ -6,8 +6,8 @@ Feature-rich data table with sorting, filtering, and pagination.
 
 | Prop | Type | Default | Required | Description |
 |------|------|--------|---------|-------------|
-| `columns` | `Array` | - | Yes | Column definitions |
-| `rows` | `Array` | `[]` | No | Data rows |
+| `columns` | `Array` | - | Yes | Column definitions array |
+| `rows` | `Array` | `[]` | No | Data rows array |
 | `searchPlaceholder` | `String` | `''` | No | Search input placeholder |
 | `allowColumnFilters` | `Boolean` | `true` | No | Enable column filters |
 | `allowColumnToggle` | `Boolean` | `true` | No | Enable column visibility toggle |
@@ -19,28 +19,22 @@ Feature-rich data table with sorting, filtering, and pagination.
 
 ```javascript
 {
-  key: String,           // property name
-  label: String,        // display label
-  sortable: Boolean,    // enable sorting (default: true)
-  width: String,        // column width
-  align: String,       // 'left', 'center', 'right'
-  badge: Boolean,      // render as badge
-  badgeMap: Object,   // { value: { bg, color } }
-  format: Function    // value formatter
+  key: String,         // property name (required)
+  label: String,      // display label (required)
+  sortable: Boolean, // enable sorting (default: true)
+  width: String,      // column width
+  align: String,    // 'left', 'center', 'right'
+  badge: Boolean,    // render as badge
+  badgeMap: Object,  // { value: { bg, color } }
+  format: Function   // value formatter
 }
 ```
 
-## Emits
+## Events
 
 | Event | Payload | Description |
-|-------|--------|-------------|
-| `row-click` | `Object` | Row clicked |
-
-## Requirements
-
-- **Pinia Store**: Uses `useGenericStore` for language state
-- **Locale Files**: Imports `en.json` / `it.json`
-- **Material Icons**: Requires Material Icons font
+|-------|---------|-------------|
+| `row-click` | `Object` | Row data clicked |
 
 ## Usage
 
@@ -50,17 +44,23 @@ Feature-rich data table with sorting, filtering, and pagination.
   :rows="data"
   search-placeholder="Search..."
   @row-click="handleRowClick"
-/>
+>
+  <template #cell-status="{ value }">
+    <span class="status-badge">{{ value }}</span>
+  </template>
+</DataTable>
 ```
 
 ## Features
 
-- Global search
+- Global search across all columns
 - Column-specific filters
-- Sortable columns
-- Column visibility toggle
+- Sortable columns with direction toggle
+- Column visibility toggle dropdown
 - Pagination with page size selector
-- Empty state
-- Custom cell slots
-- Badge rendering
+- Page navigation (first, prev, numbered, next, last)
+- Empty state with icon
+- Custom cell slots per column
+- Badge rendering with color map
 - Value formatting
+- Alternating row colors
