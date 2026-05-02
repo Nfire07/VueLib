@@ -30,6 +30,10 @@ export default {
     iconPath:{
       type: String,
       default: "/favicon.ico"
+    },
+    showUserPrefereces:{
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -213,7 +217,9 @@ export default {
         </a>
       </div>
     </div>
+    <template v-if="showUserPrefereces">
     <ThemeChanger/>
     <LanguageChanger/>
+    </template>
   </nav>
 </template>
