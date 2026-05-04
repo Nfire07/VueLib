@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Calendar component with month navigation, event display, and task management
+ */
 <template>
   <div class="calendar">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -87,7 +93,6 @@ import DynamicForm from './DynamicForm.vue';
 import { mapState } from 'pinia';
 import { useGenericStore } from '@/stores/generic';
 
-// Importa i file JSON
 import it from '@/locales/it.json';
 import en from '@/locales/en.json';
 
@@ -103,13 +108,10 @@ export default {
       type: Array,
       default: () => [],
     },
-    // NOTA: I 'default' delle props non possono accedere al 'this.lang' dinamicamente qui.
-    // Se vuoi tradurre i campi del DynamicForm, dovrai passare i campi tradotti 
-    // dal componente padre, oppure non usare i default qui e gestirli nelle computed.
     formFields: {
       type: Array,
       default: () => [
-        { type: 'divider', name: 'divider_add_task', label: 'Add Task',},
+        { type: 'divider', name: 'divider_add_task', label: 'Add Task'},
         { name: "title", label: "Title", type: "text", required: true, placeholder: "Insert your task's title...", fullWidth: true },
         { name: "time", label: "Time", type: "time", required: false, fullWidth: true },
         { name: "description", label: "Description", type: "textarea", required: false, placeholder: "Insert your task's details...", fullWidth: true },
@@ -142,17 +144,38 @@ export default {
   computed: {
     ...mapState(useGenericStore, ['language']),
 
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     lang() {
       return this.language === 'en' ? en : it;
     },
 
+    /**
+     * @param void
+     * @return String
+     * @desc Returns locale string based on current language
+     */
     currentLocale() {
       return this.language === 'en' ? 'en-US' : 'it-IT';
     },
+
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns array of weekday names from localized strings
+     */
     weekdays() {
       return this.lang.calendar.weekdays;
     },
 
+    /**
+     * @param void
+     * @return String
+     * @desc Returns formatted month and year string
+     */
     monthYear() {
       return this.currentDate.toLocaleDateString(this.currentLocale, {
         month: "long",
@@ -160,6 +183,11 @@ export default {
       });
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns array of day objects for current month view
+     */
     days() {
       const year = this.currentDate.getFullYear();
       const month = this.currentDate.getMonth();
@@ -175,6 +203,11 @@ export default {
       return result;
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns events for the currently selected day
+     */
     selectedDayEvents() {
       if (!this.selectedDate) return [];
       return this.getEventsForDay(this.selectedDate);
@@ -182,35 +215,70 @@ export default {
   },
 
   methods: {
+    /**
+     * @param void
+     * @return void
+     * @desc Navigates to previous month
+     */
     prevMonth() {
       this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
     },
 
+    /**
+     * @param void
+     * @return void
+     * @desc Navigates to next monthicon-label="VueLib"
+     */
     nextMonth() {
       this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
     },
 
+    /**
+     * @param date Date
+     * @return Boolean
+     * @desc Checks if given date is today
+     */
     isToday(date) {
       if (!date) return false;
       return date.toDateString() === new Date().toDateString();
     },
 
+    /**
+     * @param date Date
+     * @return Array
+     * @desc Returns events matching the given date
+     */
     getEventsForDay(date) {
       if (!date) return [];
       const dateStr = date.toDateString();
       return this.events.filter((e) => new Date(e.date).toDateString() === dateStr);
     },
 
+    /**
+     * @param date Date
+     * @return void
+     * @desc Opens modal for selected date
+     */
     openModal(date) {
       this.selectedDate = date;
       this.modalOpen = true;
     },
 
+    /**
+     * @param void
+     * @return void
+     * @desc Closes the event modal
+     */
     closeModal() {
       this.modalOpen = false;
       this.selectedDate = null;
     },
 
+    /**
+     * @param date Date
+     * @return String
+     * @desc Formats date for modal display with full weekday and date
+     */
     formatModalDate(date) {
       if (!date) return "";
       return date.toLocaleDateString(this.currentLocale, { 
@@ -221,6 +289,11 @@ export default {
       });
     },
 
+    /**
+     * @param formData Object
+     * @return void
+     * @desc Handles form submission for adding new event
+     */
     handleFormSubmit(formData) {
       const payload = { ...formData, date: this.selectedDate };
       if (this.onAddEvent) {

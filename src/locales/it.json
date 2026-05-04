@@ -28,13 +28,16 @@
     "errorLoad": "Impossibile caricare la libreria del grafico."
   },
   "dataloader": {
-    "loading": "Caricamento...",
+    "loading":"Caricamento…",
+    "signOut":"Disconnessione…",
+    "login":"Login in corso",
     "retry": "Riprova",
     "errorTitle": "Qualcosa è andato storto",
     "emptyTitle": "Nessun dato trovato",
     "emptyMessage": "Non c'è ancora nulla da visualizzare qui.",
     "requestFailed": "Richiesta fallita con stato",
-    "unknownError": "Errore sconosciuto"
+    "unknownError": "Errore sconosciuto",
+    "loadingDocumentation":"Caricamento documentazione in corso"
   },
   "datatable": {
     "search": "Cerca...",
@@ -78,5 +81,24 @@
   "languageChanger": {
     "english": "Passa all'Inglese",
     "italian": "Passa all'Italiano"
+  },
+  "loginForm":{
+    "placeholderEmail":"Inserisci la tua Email",
+    "placeholderPassword":"Inserisci la tua Password",
+    "title":"NMyAdmin",
+    "submitText":"Accedi",
+    "invalidCredentials":"Credenziali Invalide, Accesso Negato",
+    "checkCredentials":"Controlla le tue credenziali"
+  },
+  "settings":{
+    "title":"Impostazioni",
+    "theme":"Tema:",
+    "language":"Lingua:" 
+  },
+  "home":{
+    "welcomeBack":"Bentornato ",
+    "dailyTasks":"Attività Giornaliere",
+    "dailyTasksDesc":"Qui puoi trovare tutte le tue attività giornaliere"
   }
+
 }

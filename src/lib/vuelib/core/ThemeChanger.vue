@@ -1,18 +1,10 @@
-<script>
 /*
-  Copyright - 2026  - https://nextjs.org/learn?utm_source=next-site&utm_medium=homepage-cta&utm_campaign=home 
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
-  to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-  and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  Modified by Nfire07
-*/
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Theme switcher component for toggling between light and dark themes
+ */
+<script>
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import { mapState, mapActions } from 'pinia';
 import { useGenericStore } from '@/stores/generic';
@@ -25,6 +17,11 @@ export default {
   computed: {
     ...mapState(useGenericStore, ['theme', 'language']),
     
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     langText() {
       return this.language === 'en' ? en : it;
     }

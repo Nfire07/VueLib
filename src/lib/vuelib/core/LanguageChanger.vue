@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Language switcher with accessbility support for EN/IT toggle
+ */
 <template>
   <div class="lang-switcher" role="radiogroup">
     <button
@@ -36,6 +42,11 @@ export default {
   computed: {
     ...mapState(useGenericStore, ['language']),
     
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     langText() {
       return this.language === 'en' ? en : it;
     }
@@ -44,9 +55,13 @@ export default {
   methods: {
     ...mapActions(useGenericStore, ['changeLanguage']),
 
+    /**
+     * @param lang String
+     * @return void
+     * @desc Changes application language and emits change event
+     */
     handleLangChange(l) {
       this.changeLanguage(l);
-      
       this.$emit('change', l);
     }
   }

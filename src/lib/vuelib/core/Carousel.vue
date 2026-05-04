@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Carousel with multiple variants, swipe support, and modal for item details
+ */
 <template>
   <div :class="['carousel-root', `carousel--${variant}`]">
     <Swiper
@@ -206,6 +212,7 @@ export default {
     Swiper,
     SwiperSlide
   },
+
   props: {
     items: {
       type: Array,
@@ -241,7 +248,9 @@ export default {
       default: '520px'
     }
   },
+
   emits: ['modal-open', 'modal-close', 'cta-click'],
+
   data() {
     return {
       swiperInstance: null,
@@ -255,14 +264,33 @@ export default {
       coverflowModules: [EffectCoverflow, Pagination, Autoplay, A11y]
     }
   },
+
   computed: {
     ...mapState(useGenericStore, ['language']),
+    
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     lang() {
       return this.language === 'en' ? en : it;
     },
+
+    /**
+     * @param void
+     * @return Object or Boolean
+     * @desc Returns autoplay configuration object
+     */
     autoplayCfg() {
       return this.autoplay ? { delay: this.autoplayDelay, disableOnInteraction: false } : false
     },
+
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns options for classic variant
+     */
     classicOptions() {
       return {
         slidesPerView: 1.15,
@@ -280,6 +308,12 @@ export default {
         a11y: { enabled: true }
       }
     },
+
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns options for hero variant
+     */
     heroOptions() {
       return {
         effect: 'fade',
@@ -291,6 +325,12 @@ export default {
         a11y: { enabled: true }
       }
     },
+
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns options for fullscreen variant
+     */
     fullscreenOptions() {
       return {
         effect: 'fade',
@@ -302,6 +342,12 @@ export default {
         a11y: { enabled: true }
       }
     },
+
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns options for cards variant
+     */
     cardsOptions() {
       return {
         effect: 'cards',
@@ -311,6 +357,12 @@ export default {
         a11y: { enabled: true }
       }
     },
+
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns options for coverflow variant
+     */
     coverflowOptions() {
       return {
         effect: 'coverflow',
@@ -325,13 +377,31 @@ export default {
       }
     }
   },
+
   methods: {
+    /**
+     * @param s Swiper instance
+     * @return void
+     * @desc Stores swiper instance reference
+     */
     onSwiper(s) {
       this.swiperInstance = s
     },
+
+    /**
+     * @param s Swiper instance
+     * @return void
+     * @desc Handles slide change event
+     */
     onSlideChange(s) {
       this.activeIndex = s.realIndex
     },
+
+    /**
+     * @param item Object
+     * @return void
+     * @desc Opens modal with selected item details
+     */
     openModal(item) {
       this.selectedItem = item
       this.modalOpen = true
@@ -340,6 +410,12 @@ export default {
       }
       this.$emit('modal-open', item)
     },
+
+    /**
+     * @param void
+     * @return void
+     * @desc Closes modal and optionally restarts autoplay
+     */
     closeModal() {
       this.$emit('modal-close', this.selectedItem)
       this.modalOpen = false
@@ -348,11 +424,23 @@ export default {
         this.swiperInstance.autoplay.start()
       }
     },
+
+    /**
+     * @param item Object
+     * @return Object
+     * @desc Returns background style for classic card
+     */
     bgStyle(item) {
       return item.image
         ? { backgroundImage: `url(${item.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }
         : { background: item.color || 'var(--primary)' }
     },
+
+    /**
+     * @param item Object
+     * @return Object
+     * @desc Returns background style for hero/fullscreen slides
+     */
     heroBg(item) {
       return item.image
         ? { backgroundImage: `url(${item.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }

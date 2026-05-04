@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Flexible layout component supporting flex and grid with responsive props
+ */
 <template>
   <component
     :is="tag"
@@ -14,30 +20,57 @@
 <script>
 const UNITLESS = new Set(['flex', 'order', 'flexGrow', 'flexShrink', 'gridColumn', 'gridRow', 'zIndex', 'opacity'])
 
+/**
+ * @param val Number or String
+ * @param prop String
+ * @return String or undefined
+ * @desc Converts numeric values to px for CSS, except unitless properties
+ */
 function unit(val, prop) {
   if (val === null || val === undefined || val === '') return undefined
   if (typeof val === 'number') return UNITLESS.has(prop) ? val : `${val}px`
   return val
 }
 
+/**
+ * @param val Number or String
+ * @return String or undefined
+ * @desc Resolves grid template columns value
+ */
 function resolveColumns(val) {
   if (!val && val !== 0) return undefined
   if (typeof val === 'number') return `repeat(${val}, 1fr)`
   return val
 }
 
+/**
+ * @param val Number or String
+ * @return String or undefined
+ * @desc Resolves grid template rows value
+ */
 function resolveRows(val) {
   if (!val && val !== 0) return undefined
   if (typeof val === 'number') return `repeat(${val}, 1fr)`
   return val
 }
 
+/**
+ * @param val String or Array
+ * @return String or undefined
+ * @desc Resolves grid template areas value
+ */
 function resolveAreas(val) {
   if (!val) return undefined
   if (Array.isArray(val)) return val.map(r => `"${r}"`).join(' ')
   return val
 }
 
+/**
+ * @param type String
+ * @param inline Boolean
+ * @return String
+ * @desc Determines display property based on type and inline settings
+ */
 function resolveDisplay(type, inline) {
   const t = (type || '').toLowerCase().trim()
   const isGrid = t === 'grid' || t === 'inline-grid' || /^\d+$/.test(t) || t.includes('fr') || t.includes('repeat(') || t.includes('minmax(')
@@ -45,6 +78,11 @@ function resolveDisplay(type, inline) {
   return isGrid ? 'grid' : 'flex'
 }
 
+/**
+ * @param display String
+ * @return Boolean
+ * @desc Checks if display value is a grid layout
+ */
 function isGridDisplay(display) {
   return display === 'grid' || display === 'inline-grid'
 }

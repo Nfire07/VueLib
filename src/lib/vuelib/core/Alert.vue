@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Alert component with types, auto-dismiss, and progress bar
+ */
 <template>
   <Transition name="alert-slide">
     <div
@@ -35,7 +41,7 @@
 
 <script>
 import { mapState } from 'pinia';
-import { useGenericStore } from '@/stores/generic'; 
+import { useGenericStore } from '@/stores/generic';
 import it from '@/locales/it.json';
 import en from '@/locales/en.json';
 
@@ -85,9 +91,14 @@ export default {
     };
   },
 
-  computed: {    
+  computed: {
     ...mapState(useGenericStore, ['language']),
-
+    
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     lang() {
       return this.language === 'en' ? en : it;
     }
@@ -109,11 +120,21 @@ export default {
   },
 
   methods: {
+    /**
+     * @param void
+     * @return void
+     * @desc Starts auto-dismiss timer based on timeout prop
+     */
     startTimer() {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => this.dismiss(), this.timeout);
     },
 
+    /**
+     * @param void
+     * @return void
+     * @desc Dismisses alert and emits events
+     */
     dismiss() {
       this.visible = false;
       this.$emit('update:modelValue', false);

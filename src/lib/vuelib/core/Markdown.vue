@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Markdown viewer with syntax highlighting, copy button, and theme support
+ */
 <template>
   <component
     :is="tag"
@@ -38,6 +44,11 @@ const CSS = {
 const loadedScripts = {}
 const loadedStyles = {}
 
+/**
+ * @param src String
+ * @return Promise
+ * @desc Loads external script and caches it
+ */
 function loadScript(src) {
   if (loadedScripts[src]) return loadedScripts[src]
   loadedScripts[src] = new Promise((resolve, reject) => {
@@ -55,6 +66,11 @@ function loadScript(src) {
   return loadedScripts[src]
 }
 
+/**
+ * @param href String
+ * @return void
+ * @desc Loads external stylesheet and caches it
+ */
 function loadStyle(href) {
   if (loadedStyles[href]) return
   loadedStyles[href] = true
@@ -65,6 +81,11 @@ function loadStyle(href) {
   document.head.appendChild(el)
 }
 
+/**
+ * @param str String
+ * @return String
+ * @desc Escapes HTML special characters
+ */
 function escapeHtml(str) {
   return str
     .replace(/&/g, '&amp;')
@@ -200,20 +221,30 @@ export default {
       hlInstance: null,
       loadError: null,
       isLoaded: false,
-    }
+    };
   },
 
   computed: {
     ...mapState(useGenericStore, ['language', 'theme']),
-
+    
+    /**
+     * @param void
+     * @return String
+     * @desc Resolves highlight theme based on prop or current theme
+     */
     resolvedTheme() {
       if (this.highlightTheme !== 'auto') return this.highlightTheme
       return this.theme === 'dark' ? 'atomOneDark' : 'github'
     },
 
+    /**
+     * @param void
+     * @return String
+     * @desc Renders markdown content with syntax highlighting
+     */
     renderedContent() {
       if (!this.modelValue || !this.markedInstance) return ''
-
+      
       try {
         const renderer = new this.markedInstance.Renderer()
 
@@ -222,7 +253,7 @@ export default {
           const langStr = typeof lang === 'string' ? lang : (lang?.lang || '')
           const validLang = langStr && this.hlInstance?.getLanguage(langStr) ? langStr : null
           let highlighted
-
+          
           if (this.highlight && this.hlInstance && validLang) {
             highlighted = this.hlInstance.highlight(code, { language: validLang }).value
           } else {
@@ -240,38 +271,38 @@ export default {
           const langLabel = this.showLanguageLabel && langStr
             ? `<span class="md-code-lang">${escapeHtml(langStr)}</span>`
             : ''
-
+          
           const copyBtn = this.showCopyButton
             ? `<button class="md-copy-btn" data-code="${escapeHtml(code)}" type="button">${this.copyLabel}</button>`
             : ''
-
+          
           const header = langLabel || copyBtn
             ? `<div class="md-code-header">${langLabel}${copyBtn}</div>`
             : ''
-
+          
           return `<div class="md-code-block">${header}<pre class="md-pre${validLang ? ` language-${langStr}` : ''}"><code class="md-code${validLang ? ` hljs language-${validLang}` : ''}">${highlighted}</code></pre></div>`
         }.bind(this)
-
+        
         renderer.link = (href, title, text) => {
           const target = this.linkTarget ? ` target="${this.linkTarget}"` : ''
           const rel = this.linkRel ? ` rel="${this.linkRel}"` : ''
           const t = title ? ` title="${escapeHtml(title)}"` : ''
           return `<a href="${href}"${t}${target}${rel} class="md-link">${text}</a>`
         }
-
+        
         if (this.headingIds) {
           renderer.heading = (text, level) => {
             const slug = `${this.headingPrefix}${text.toLowerCase().replace(/[^\w]+/g, '-')}`
             return `<h${level} id="${slug}" class="md-heading md-h${level}"><a class="md-anchor" href="#${slug}" aria-hidden="true">#</a>${text}</h${level}>`
           }
         }
-
+        
         renderer.image = (href, title, text) => {
           const t = title ? ` title="${escapeHtml(title)}"` : ''
           const a = text ? ` alt="${escapeHtml(text)}"` : ''
           return `<figure class="md-figure"><img src="${href}"${a}${t} class="md-img" loading="lazy" />${text ? `<figcaption class="md-caption">${escapeHtml(text)}</figcaption>` : ''}</figure>`
         }
-
+        
         this.markedInstance.setOptions({ breaks: this.breaks, gfm: this.gfm, renderer })
         return this.markedInstance.parse(this.modelValue)
       } catch (e) {
@@ -281,6 +312,11 @@ export default {
       }
     },
 
+    /**
+     * @param void
+     * @return Object
+     * @desc Computes style object for content wrapper
+     */
     contentStyle() {
       const style = {}
       if (this.fontSize) style.fontSize = this.fontSize
@@ -326,12 +362,22 @@ export default {
   },
 
   methods: {
+    /**
+     * @param void
+     * @return void
+     * @desc Applies highlight.js theme stylesheet
+     */
     applyHighlightTheme() {
       if (!this.highlight) return
       const href = CSS[this.resolvedTheme]
       if (href) loadStyle(href)
     },
 
+    /**
+     * @param e Event
+     * @return void
+     * @desc Handles click events for copy buttons and links
+     */
     handleClick(e) {
       const btn = e.target.closest('.md-copy-btn')
       if (btn) {
@@ -354,7 +400,7 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -408,17 +454,6 @@ export default {
 .markdown--prose :deep(.md-h6) {
   font-size: 0.875rem;
   color: color-mix(in srgb, var(--foreground) 65%, transparent);
-}
-
-.markdown--prose :deep(h1):not(.md-heading),
-.markdown--prose :deep(h2):not(.md-heading),
-.markdown--prose :deep(h3):not(.md-heading),
-.markdown--prose :deep(h4):not(.md-heading),
-.markdown--prose :deep(h5):not(.md-heading),
-.markdown--prose :deep(h6):not(.md-heading) {
-  margin: 1.5em 0 0.5em;
-  font-weight: 600;
-  line-height: 1.3;
 }
 
 .markdown--prose :deep(.md-anchor) {
@@ -497,12 +532,10 @@ export default {
   color: color-mix(in srgb, var(--foreground) 60%, transparent);
   cursor: pointer;
   transition: all 0.15s;
-  line-height: 1.4;
 }
 
 .markdown--prose :deep(.md-copy-btn:hover) {
   background: color-mix(in srgb, var(--foreground) 8%, transparent);
-  color: var(--foreground);
   border-color: color-mix(in srgb, var(--foreground) 30%, transparent);
 }
 
@@ -598,7 +631,7 @@ export default {
 
 .markdown--prose :deep(.md-caption) {
   margin-top: 0.4em;
-  font-size: 0.8125em;
+  font-size: 0.8125rem;
   color: color-mix(in srgb, var(--foreground) 55%, transparent);
   font-style: italic;
 }
@@ -628,9 +661,9 @@ export default {
 .markdown--prose :deep(.md-error) {
   color: var(--error, #ef4444);
   padding: 0.75rem 1rem;
-  background: color-mix(in srgb, var(--error, #ef4444) 10%, transparent);
+  background: color-mix(in srgb, var(--error) 10%, transparent);
   border-radius: 8px;
-  border: 1px solid color-mix(in srgb, var(--error, #ef4444) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 30%, transparent);
   font-size: 0.875em;
 }
 </style>

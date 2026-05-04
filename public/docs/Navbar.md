@@ -9,6 +9,7 @@ Navigation bar with links and theme/language switchers.
 | `links` | `Array` | `[]` | No | Array of link objects or strings |
 | `iconLabel` | `String` | `'Home'` | No | Home icon label text |
 | `iconPath` | `String` | `'/favicon.ico'` | No | Icon image path |
+| `showUserPrefereces` | `Boolean` | `false` | No | Show ThemeChanger and LanguageChanger components |
 
 ### Link Structure
 

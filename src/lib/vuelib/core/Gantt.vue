@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Gantt chart component with task bars, tooltips, and view switching
+ */
 <template>
   <div class="gantt-wrapper">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -145,19 +151,19 @@ export default {
     tasks: {
       type: Array,
       default: () => [
-        { id: 1,  name: "Discovery & Research",    start: new Date(2026, 2, 23), end: new Date(2026, 2, 28), progress: 100, assignee: "Anna M.",   color: "#22c98b" },
-        { id: 2,  name: "UX Wireframes",           start: new Date(2026, 2, 26), end: new Date(2026, 3, 3),  progress: 90,  assignee: "Laura B.",  color: "#4f8ef7" },
-        { id: 3,  name: "UI Design System",        start: new Date(2026, 3, 1),  end: new Date(2026, 3, 8),  progress: 60,  assignee: "Laura B.",  color: "#4f8ef7" },
-        { id: 4,  name: "Frontend Setup",          start: new Date(2026, 3, 2),  end: new Date(2026, 3, 5),  progress: 100, assignee: "Marco T.",  color: "#ED202F" },
-        { id: 5,  name: "Component Library",       start: new Date(2026, 3, 4),  end: new Date(2026, 3, 11), progress: 55,  assignee: "Marco T.",  color: "#ED202F" },
-        { id: 6,  name: "API Integration",         start: new Date(2026, 3, 6),  end: new Date(2026, 3, 14), progress: 30,  assignee: "Carlo V.",  color: "#f59e0b" },
-        { id: 7,  name: "Auth & Permissions",      start: new Date(2026, 3, 7),  end: new Date(2026, 3, 10), progress: 70,  assignee: "Carlo V.",  color: "#f59e0b" },
-        { id: 8,  name: "Dashboard Views",         start: new Date(2026, 3, 9),  end: new Date(2026, 3, 17), progress: 20,  assignee: "Marco T.",  color: "#ED202F" },
-        { id: 9,  name: "QA & Testing",            start: new Date(2026, 3, 14), end: new Date(2026, 3, 21), progress: 0,   assignee: "Anna M.",   color: "#a855f7" },
-        { id: 10, name: "Staging Deploy",          start: new Date(2026, 3, 20), end: new Date(2026, 3, 22), progress: 0,   assignee: "Carlo V.",  color: "#f59e0b" },
-        { id: 11, name: "Client Review",           start: new Date(2026, 3, 22), end: new Date(2026, 3, 24), progress: 0,   assignee: "Anna M.",   color: "#22c98b" },
-        { id: 12, name: "Bug Fixes",               start: new Date(2026, 3, 24), end: new Date(2026, 3, 28), progress: 0,   assignee: "Marco T.",  color: "#ED202F" },
-        { id: 13, name: "Production Deploy",       start: new Date(2026, 3, 29), end: new Date(2026, 3, 30), progress: 0,   assignee: "Carlo V.",  color: "#f59e0b" },
+        { id: 1, name: "Discovery & Research", start: new Date(2026, 2, 23), end: new Date(2026, 2, 28), progress: 100, assignee: "Anna M.", color: "#22c98b" },
+        { id: 2, name: "UX Wireframes", start: new Date(2026, 2, 26), end: new Date(2026, 3, 3), progress: 90, assignee: "Laura B.", color: "#4f8ef7" },
+        { id: 3, name: "UI Design System", start: new Date(2026, 3, 1), end: new Date(2026, 3, 8), progress: 60, assignee: "Laura B.", color: "#4f8ef7" },
+        { id: 4, name: "Frontend Setup", start: new Date(2026, 3, 2), end: new Date(2026, 3, 5), progress: 100, assignee: "Marco T.", color: "#ED202F" },
+        { id: 5, name: "Component Library", start: new Date(2026, 3, 4), end: new Date(2026, 3, 11), progress: 55, assignee: "Marco T.", color: "#ED202F" },
+        { id: 6, name: "API Integration", start: new Date(2026, 3, 6), end: new Date(2026, 3, 14), progress: 30, assignee: "Carlo V.", color: "#f59e0b" },
+        { id: 7, name: "Auth & Permissions", start: new Date(2026, 3, 7), end: new Date(2026, 3, 10), progress: 70, assignee: "Carlo V.", color: "#f59e0b" },
+        { id: 8, name: "Dashboard Views", start: new Date(2026, 3, 9), end: new Date(2026, 3, 17), progress: 20, assignee: "Marco T.", color: "#ED202F" },
+        { id: 9, name: "QA & Testing", start: new Date(2026, 3, 14), end: new Date(2026, 3, 21), progress: 0, assignee: "Anna M.", color: "#a855f7" },
+        { id: 10, name: "Staging Deploy", start: new Date(2026, 3, 20), end: new Date(2026, 3, 22), progress: 0, assignee: "Carlo V.", color: "#f59e0b" },
+        { id: 11, name: "Client Review", start: new Date(2026, 3, 22), end: new Date(2026, 3, 24), progress: 0, assignee: "Anna M.", color: "#22c98b" },
+        { id: 12, name: "Bug Fixes", start: new Date(2026, 3, 24), end: new Date(2026, 3, 28), progress: 0, assignee: "Marco T.", color: "#ED202F" },
+        { id: 13, name: "Production Deploy", start: new Date(2026, 3, 29), end: new Date(2026, 3, 30), progress: 0, assignee: "Carlo V.", color: "#f59e0b" },
       ],
     },
     initialStartDate: {
@@ -193,24 +199,49 @@ export default {
   computed: {
     ...mapState(useGenericStore, ['language']),
     
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     lang() {
       return this.language === 'en' ? en : it;
     },
 
+    /**
+     * @param void
+     * @return String
+     * @desc Returns locale string based on current language
+     */
     currentLocale() {
       return this.language === 'en' ? 'en-US' : 'it-IT';
     },
 
+    /**
+     * @param void
+     * @return Number
+     * @desc Returns number of days for current view
+     */
     viewDays() {
       return this.views.find((v) => v.key === this.activeView)?.days || 14;
     },
 
+    /**
+     * @param void
+     * @return Date
+     * @desc Returns end date of current view
+     */
     viewEnd() {
       const d = new Date(this.viewStart);
       d.setDate(d.getDate() + this.viewDays - 1);
       return d;
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns column objects for each day in view
+     */
     columns() {
       const cols = [];
       const today = new Date();
@@ -230,6 +261,11 @@ export default {
       return cols;
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns month segments for header
+     */
     monthSegments() {
       const segments = [];
       let i = 0;
@@ -250,10 +286,20 @@ export default {
       return segments;
     },
 
+    /**
+     * @param void
+     * @return Number
+     * @desc Returns minimum width for gantt chart
+     */
     ganttMinWidth() {
       return 160 + this.columns.length * this.colWidth;
     },
 
+    /**
+     * @param void
+     * @return String
+     * @desc Returns formatted range label for toolbar
+     */
     rangeLabel() {
       return (
         this.viewStart.toLocaleDateString(this.currentLocale, { day: "numeric", month: "short" }) +
@@ -262,6 +308,11 @@ export default {
       );
     },
 
+    /**
+     * @param void
+     * @return Object or null
+     * @desc Returns style for today line position
+     */
     todayLineStyle() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -274,12 +325,22 @@ export default {
   },
 
   methods: {
+    /**
+     * @param days Number
+     * @return void
+     * @desc Shifts view range by specified number of days
+     */
     shiftRange(days) {
       const d = new Date(this.viewStart);
       d.setDate(d.getDate() + days);
       this.viewStart = d;
     },
 
+    /**
+     * @param void
+     * @return void
+     * @desc Jumps view to current week
+     */
     jumpToToday() {
       const d = new Date();
       d.setHours(0, 0, 0, 0);
@@ -287,14 +348,30 @@ export default {
       this.viewStart = d;
     },
 
+    /**
+     * @param key String
+     * @return void
+     * @desc Sets active view by key
+     */
     setView(key) {
       this.activeView = key;
     },
 
+    /**
+     * @param a Date
+     * @param b Date
+     * @return Number
+     * @desc Calculates days between two dates
+     */
     daysBetween(a, b) {
       return Math.round((b - a) / (1000 * 60 * 60 * 24));
     },
 
+    /**
+     * @param task Object
+     * @return Boolean or null
+     * @desc Checks if task bar should be displayed for current view
+     */
     getBarData(task) {
       const taskStart = new Date(task.start);
       const taskEnd = new Date(task.end);
@@ -304,6 +381,11 @@ export default {
       return true;
     },
 
+    /**
+     * @param task Object
+     * @return Object
+     * @desc Returns style object for task bar positioning and width
+     */
     getBarStyle(task) {
       const taskStart = new Date(task.start);
       const taskEnd = new Date(task.end);
@@ -323,10 +405,21 @@ export default {
       };
     },
 
+    /**
+     * @param date Date
+     * @return String
+     * @desc Formats date for display in tooltips
+     */
     formatDate(date) {
       return new Date(date).toLocaleDateString(this.currentLocale, { day: "numeric", month: "short", year: "numeric" });
     },
 
+    /**
+     * @param task Object
+     * @param event Event
+     * @return void
+     * @desc Shows tooltip at mouse position
+     */
     showTooltip(task, event) {
       const rect = this.$el.getBoundingClientRect();
       this.tooltip = {
@@ -337,6 +430,11 @@ export default {
       };
     },
 
+    /**
+     * @param void
+     * @return void
+     * @desc Hides tooltip
+     */
     hideTooltip() {
       this.tooltip.visible = false;
     },

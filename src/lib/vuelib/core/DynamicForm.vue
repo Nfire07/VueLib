@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Dynamic form generator supporting multiple input types with validation
+ */
 <template>
   <div class="dynamic-form-wrapper">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
@@ -351,12 +357,22 @@ export default {
 
   computed: {
     ...mapState(useGenericStore, ['language']),
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     lang() {
       return this.language === 'en' ? en : it;
     }
   },
 
   created() {
+    /**
+     * @param void
+     * @return void
+     * @desc Initializes form data based on field types and default values
+     */
     this.fields.forEach((field) => {
       if (field.type === 'checkbox' || field.type === 'toggle') {
         this.formData[field.name] = field.defaultValue ?? false;
@@ -384,10 +400,21 @@ export default {
   },
 
   methods: {
+    /**
+     * @param name String
+     * @return void
+     * @desc Toggles password visibility for specified field
+     */
     togglePasswordVisibility(name) {
       this.passwordVisible[name] = !this.passwordVisible[name];
     },
 
+    /**
+     * @param event Event
+     * @param field Object
+     * @return void
+     * @desc Handles file input change and updates form data
+     */
     handleFileChange(event, field) {
       const files = event.target.files;
       if (!files.length) return;
@@ -397,6 +424,12 @@ export default {
         : files[0].name;
     },
 
+    /**
+     * @param event Event
+     * @param name String
+     * @return void
+     * @desc Adds a tag to the specified field
+     */
     addTag(event, name) {
       const value = event.target.value.trim().replace(/,$/, '');
       if (!value) return;
@@ -407,10 +440,22 @@ export default {
       event.target.value = '';
     },
 
+    /**
+     * @param name String
+     * @param index Number
+     * @return void
+     * @desc Removes a tag at specified index
+     */
     removeTag(name, index) {
       this.formData[name] = this.formData[name].filter((_, i) => i !== index);
     },
 
+    /**
+     * @param event Event
+     * @param field Object
+     * @return void
+     * @desc Filters searchable select options based on query
+     */
     filterSearchableOptions(event, field) {
       const query = (event.query || '').toLowerCase().trim();
       const options = field.options || [];
@@ -419,17 +464,33 @@ export default {
         : [...options];
     },
 
+    /**
+     * @param event Event
+     * @param field Object
+     * @return void
+     * @desc Handles searchable select option selection
+     */
     onSearchableSelect(event, field) {
       this.formData[field.name] = event.value?.value ?? null;
       this.validateField(field);
     },
 
+    /**
+     * @param field Object
+     * @return void
+     * @desc Clears searchable select field
+     */
     onSearchableClear(field) {
       this.formData[field.name] = null;
       this.searchableSelectDisplay[field.name] = null;
       this.validateField(field);
     },
 
+    /**
+     * @param field Object
+     * @return Boolean
+     * @desc Validates a single field and sets error message
+     */
     validateField(field) {
       const value = this.formData[field.name];
       let error = '';
@@ -474,6 +535,11 @@ export default {
       return !error;
     },
 
+    /**
+     * @param void
+     * @return void
+     * @desc Handles form submission after validating all fields
+     */
     handleSubmit() {
       let valid = true;
       this.fields.forEach((field) => {
@@ -708,7 +774,6 @@ export default {
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
   padding-right: 2.4rem;
-  padding-left: 2.6rem;
   font-size: 0.9rem;
   font-family: inherit;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -836,7 +901,7 @@ export default {
 
 .range-min, .range-max {
   font-size: 0.72rem;
-  color: color-mix(in srgb, var(--foreground) 80%);
+  color: color-mix(in srgb, var(--foreground) 80%, transparent);
   font-family: inherit;
 }
 

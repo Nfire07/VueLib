@@ -1,23 +1,16 @@
-<script>
 /*
-  Copyright - 2026 joe-watson-sbf (Joseph Watzson) 
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
-  to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-  and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  Modified by Nfire07
-*/
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Navigation bar with icon, links, and optional theme/language controls
+ */
+<script>
 import ThemeChanger from './ThemeChanger.vue';
 import LanguageChanger from './LanguageChanger.vue';
 
 export default {
   name: 'Navbar',
+
   props: {
     links: {
       type: Array,
@@ -36,6 +29,7 @@ export default {
       default: false
     }
   },
+
   computed: {
     processedLinks() {
       return this.links.map(link => {
@@ -46,6 +40,7 @@ export default {
       });
     }
   },
+
   components:{
     ThemeChanger,
     LanguageChanger,
@@ -62,7 +57,6 @@ export default {
   padding: 1rem;
   box-sizing: border-box;
   position:relative;
-  position: absolute;
   top: 0;
   left: 0;
   z-index: 100;
@@ -198,20 +192,14 @@ export default {
 <template>
   <nav class="navbar-wrapper">
     <div class="card">
-      <div
-        class="icon-slot"
-      >
+      <div class="icon-slot">
         <a href="/home" class="icon-link">
           <img :src="iconPath" alt="APPLICATION ICON" class="icon-img"/>
           <span class="icon-label" v-html="iconLabel"></span>
         </a>
       </div>
 
-      <div
-        v-for="(link, index) in processedLinks"
-        :key="index"
-        class="link-slot"
-      >
+      <div v-for="(link, index) in processedLinks" :key="index" class="link-slot">
         <a :href="link.link" class="nav-link">
           <span>{{ link.name }}</span>
         </a>

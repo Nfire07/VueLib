@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Data table with sorting, filtering, pagination, and column management
+ */
 <template>
   <div class="data-table-wrapper">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -254,14 +260,30 @@ export default {
 
   computed: {
     ...mapState(useGenericStore, ['language']),
+    
+    /**
+     * @param void
+     * @return Object
+     * @desc Returns localized text based on current language
+     */
     lang() {
       return this.language === 'en' ? en : it;
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns columns that are currently visible
+     */
     activeColumns() {
       return this.columns.filter((c) => this.visibleColumns.includes(c.key));
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns filtered rows based on search and column filters
+     */
     filteredRows() {
       let result = [...this.rows];
 
@@ -297,16 +319,31 @@ export default {
       return result;
     },
 
+    /**
+     * @param void
+     * @return Number
+     * @desc Returns total number of pages
+     */
     totalPages() {
       return Math.max(1, Math.ceil(this.filteredRows.length / this.rowsPerPage));
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns rows for current page
+     */
     paginatedRows() {
       if (!this.allowPagination) return this.filteredRows;
       const start = (this.currentPage - 1) * this.rowsPerPage;
       return this.filteredRows.slice(start, start + this.rowsPerPage);
     },
 
+    /**
+     * @param void
+     * @return String
+     * @desc Returns pagination info text
+     */
     paginationInfo() {
       const total = this.filteredRows.length;
       if (total === 0) return this.lang.datatable.noResults;
@@ -315,6 +352,11 @@ export default {
       return `${start}–${end} ${this.lang.datatable.of} ${total} ${this.lang.datatable.rowsLower}`;
     },
 
+    /**
+     * @param void
+     * @return Array
+     * @desc Returns visible page numbers with ellipsis
+     */
     visiblePages() {
       const pages = [];
       const total = this.totalPages;
@@ -348,6 +390,11 @@ export default {
   },
 
   methods: {
+    /**
+     * @param key String
+     * @return void
+     * @desc Sets sort key and direction for table
+     */
     setSort(key) {
       if (this.sortKey === key) {
         this.sortDir = this.sortDir === "asc" ? "desc" : "asc";
@@ -357,6 +404,11 @@ export default {
       }
     },
 
+    /**
+     * @param key String
+     * @return void
+     * @desc Toggles column visibility
+     */
     toggleColumn(key) {
       if (this.visibleColumns.includes(key)) {
         if (this.visibleColumns.length > 1) {
@@ -369,12 +421,24 @@ export default {
       }
     },
 
+    /**
+     * @param value Any
+     * @param col Object
+     * @return String
+     * @desc Formats cell value for display
+     */
     formatCell(value, col) {
       if (value === null || value === undefined) return "—";
       if (col.format) return col.format(value);
       return value;
     },
 
+    /**
+     * @param value Any
+     * @param col Object
+     * @return Object
+     * @desc Returns badge styles based on value and column config
+     */
     getBadgeStyle(value, col) {
       if (col.badgeMap && col.badgeMap[value]) {
         return {

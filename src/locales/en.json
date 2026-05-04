@@ -28,13 +28,16 @@
     "errorLoad": "Failed to load chart library."
   },
   "dataloader": {
-    "loading": "Loading...",
+    "loading":"Loading…",
+    "signOut":"Signing out…",
+    "login":"Loggin in…",
     "retry": "Try again",
     "errorTitle": "Something went wrong",
     "emptyTitle": "No data found",
     "emptyMessage": "There is nothing to display here yet.",
     "requestFailed": "Request failed with status",
-    "unknownError": "Unknown error"
+    "unknownError": "Unknown error",
+    "loadingDocumentation":"Loading documentation"
   },
   "datatable": {
     "search": "Search...",
@@ -78,5 +81,25 @@
   "languageChanger": {
     "english": "Switch to English",
     "italian": "Switch to Italian"
+  },
+  "loginForm":{
+    "placeholderEmail":"Insert your Email",
+    "placeholderPassword":"Insert your Password",
+    "title":"NMyAdmin",
+    "submitText":"Login",
+    "invalidCredentials":"Invalid Credentials, Access Denied",
+    "checkCredentials":"Check your credentials"
+  },
+  "settings":{
+    "title":"Settings",
+    "theme":"Theme:",
+    "language":"Language:"
+  },
+  "home":{
+    "welcomeBack":"Welcome Back ",
+    "dailyTasks":"Daily Tasks",
+    "dailyTasksDesc":"Here you can find all your daily tasks"
   }
+
+  
 }

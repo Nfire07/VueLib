@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Floating action button with expandable action menu and position options
+ */
 <template>
   <div class="fab-container" :class="positionClass">
     <transition name="fab-actions">
@@ -43,7 +49,7 @@ export default {
     },
     tooltip: {
       type: String,
-      default: '' // Modificato per permettere il fallback al pacchetto di lingua
+      default: ''
     },
     position: {
       type: String,
@@ -84,10 +90,21 @@ export default {
   },
 
   methods: {
+    /**
+     * @param void
+     * @return void
+     * @desc Toggles the action menu open/closed state
+     */
     toggle() {
       this.isOpen = !this.isOpen
       this.$emit(this.isOpen ? 'open' : 'close')
     },
+
+    /**
+     * @param action Object
+     * @return void
+     * @desc Handles action button click and emits event
+     */
     handleAction(action) {
       this.$emit('action', action)
       if (action.handler) action.handler()
@@ -176,7 +193,6 @@ export default {
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.18);
 }
-
 
 .fab-main--open {
   border-radius: 12px;

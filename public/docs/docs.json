@@ -1,0 +1,89 @@
+{
+    "docs":[
+        {
+            "name":"Alert",
+            "file":"Alert.md",
+            "description":"Toast-style alert with types"
+        },
+        {
+            "name":"Animate",
+            "file":"Animate.md",
+            "description":"Customizable animation"
+        },
+        {
+            "name":"Calendar",
+            "file":"Calendar.md",
+            "description":"Event calendar with day modal"
+        },
+        {
+            "name":"Carousel",
+            "file":"Carousel.md",
+            "description":"Multi-variant carousel"
+        },
+        {
+            "name":"DataChart",
+            "file":"DataChart.md",
+            "description":"Chart.js wrapper"
+        },
+        {
+            "name":"DataLoader",
+            "file":"DataLoader.md",
+            "description":"Loading states component"
+        },
+        {
+            "name":"DataTable",
+            "file":"DataTable.md",
+            "description":"Sortable, filtering table"
+        },
+        {
+            "name":"DynamicForm",
+            "file":"DynamicForm.md",
+            "description":"Dynamic form builder"
+        },
+        {
+            "name":"Fab",
+            "file":"Fab.md",
+            "description":"Floating action button"
+        },
+        {
+            "name":"Gantt",
+            "file":"Gantt.md",
+            "description":"Gantt chart for tasks"
+        },
+        {
+            "name":"LanguageChanger",
+            "file":"LanguageChanger.md",
+            "description":"Language switcher"
+        },
+        {
+            "name":"Layout",
+            "file":"Layout.md",
+            "description":"CSS Grid/Flex wrapper"
+        },
+        {
+            "name":"Markdown",
+            "file":"Markdown.md",
+            "description":"Markdown renderer"
+        },
+        {   
+            "name":"Modal",
+            "file":"Modal.md",
+            "description":"Modal dialog wrapper"
+        },
+        {
+            "name":"Navbar",
+            "file":"Navbar.md",
+            "description":"Navigation bar"
+        },
+        {
+            "name":"ThemeChanger",
+            "file":"ThemeChanger.md",
+            "description":"Light/dark theme toggle"
+        },
+        {
+            "name":"Card",
+            "file":"Card.md",
+            "description":"A simple card with features"
+        }   
+    ]
+}

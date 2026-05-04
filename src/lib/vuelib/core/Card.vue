@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: A flexible card component with optional image, title, description, and scrollable item list with modal
+ */
 <template>
   <component
     :is="tag"
@@ -21,6 +27,18 @@
     <div class="card__body">
       <h3 v-if="title" class="card__title">{{ title }}</h3>
       <p v-if="description" class="card__description">{{ description }}</p>
+      
+      <div v-if="items && items.length" class="card__items">
+        <div
+          v-for="item in items"
+          :key="getItemKey(item)"
+          class="card__item"
+          @click.stop="handleItemClick(item)"
+        >
+          {{ getItemLabel(item) }}
+        </div>
+      </div>
+      
       <slot />
       
       <div v-if="resolvedCta || $slots.footer" class="card__footer">
@@ -118,13 +136,24 @@ export default {
       type: Boolean,
       default: true,
     },
+    items: {
+      type: Array,
+      default: () => [],
+    },
+    itemKey: {
+      type: String,
+      default: 'id',
+    },
+    itemLabel: {
+      type: String,
+      default: 'label',
+    },
   },
 
-  emits: ['click'],
+  emits: ['click', 'item-click'],
 
   computed: {
     ...mapState(useGenericStore, ['language']),
-
 
     lang() {
       return this.language === 'en' ? en : it
@@ -174,16 +203,53 @@ export default {
   },
 
   methods: {
+    /**
+     * @param val The value to convert to a CSS unit string
+     * @return The value with 'px' appended if it's a number, otherwise the value itself
+     * @desc Converts a numeric value to a pixel string, passes through string values
+     */
     unit(val) {
       if (val === null || val === undefined) return undefined
       if (typeof val === 'number') return `${val}px`
       return val
     },
 
+    /**
+     * @param e The click event
+     * @return void
+     * @desc Handles card click events and emits click event if card is clickable
+     */
     handleClick(e) {
       if (this.clickable) {
         this.$emit('click', e)
       }
+    },
+
+    /**
+     * @param item The item that was clicked
+     * @return void
+     * @desc Handles item click by emitting item-click event
+     */
+    handleItemClick(item) {
+      this.$emit('item-click', item)
+    },
+
+    /**
+     * @param item The item to get the key for
+     * @return The unique key for the item
+     * @desc Extracts the unique key from an item using the itemKey prop
+     */
+    getItemKey(item) {
+      return item[this.itemKey] || item.id || JSON.stringify(item)
+    },
+
+    /**
+     * @param item The item to get the label for
+     * @return The display label for the item
+     * @desc Extracts the display label from an item using the itemLabel prop
+     */
+    getItemLabel(item) {
+      return item[this.itemLabel] || item.label || item.name || 'Item'
     },
   },
 }
@@ -197,6 +263,7 @@ export default {
   border-radius: 12px;
   overflow: hidden;
   box-sizing: border-box;
+  position: relative;
 }
 
 .card--outlined {
@@ -261,6 +328,27 @@ export default {
   line-height: 1.5;
 }
 
+.card__items {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.card__item {
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.card__item:hover {
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
 .card__footer {
   margin-top: 0.5rem;
   padding-top: 0.75rem;
@@ -272,4 +360,5 @@ export default {
   color: var(--primary);
   font-weight: 500;
 }
+
 </style>

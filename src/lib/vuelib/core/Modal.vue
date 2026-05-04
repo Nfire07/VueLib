@@ -1,3 +1,9 @@
+/*
+ * Author: Mele Nicolo' Emanuele
+ * Date: 2026-05-04
+ * License: MIT
+ * Description: Reusable modal dialog with overlay, transitions, and keyboard support
+ */
 <template>
   <Teleport to="body">
     <Transition name="modal">
@@ -78,17 +84,32 @@ export default {
   },
 
   methods: {
+    /**
+     * @param void
+     * @return void
+     * @desc Closes modal if closeOnOverlay is enabled
+     */
     close() {
       if (!this.closeOnOverlay) return
       this.$emit('update:modelValue', false)
       this.$emit('close')
     },
 
+    /**
+     * @param void
+     * @return void
+     * @desc Force closes modal regardless of settings
+     */
     forceClose() {
       this.$emit('update:modelValue', false)
       this.$emit('close')
     },
 
+    /**
+     * @param e KeyboardEvent
+     * @return void
+     * @desc Handles escape key press to close modal
+     */
     _onKeydown(e) {
       if (e.key === 'Escape') this.forceClose()
     },
